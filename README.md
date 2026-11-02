@@ -11,15 +11,19 @@
 1. **5-Layer Single-Track Intelligence Dossier (`build_youtube_track_dossier.py`):**
    - **Layer 1 (`video_metadata.json` / `.csv`):** Upload date, UTC release timestamp, resolution, FPS, audio/video codecs, subscriber count, description tags, and regex-extracted lyrics.
    - **Layer 2 (`video_telemetry_snapshot.json` / `.csv` + `video_telemetry_history.csv`):** Cumulative views, likes, comments, `views_per_hour`, `likes_per_hour`, `like_to_view_ratio_pct`, `hours_since_release`, and dual-axis **Virality Tier** (`Mega-Viral`, `High-Velocity`, `Viral`, `Moderate`, `Emerging`).
-   - **Layer 3 (`country_chart_rankings.json` / `.csv`):** Multi-country placements separated across **Daily Top Music Videos (`VIDEOS`)** and **Overall YouTube Trending (`TRENDING_VIDEOS`)**, with composite deduplication (`country_code`, `chart_type`, `chart_date`) and historical **`#1` Peak Preservation** (`all_time_best_rank`, `reached_number_one`, `previous_position`).
+   - **Layer 3 (`country_chart_rankings.json` / `.csv`):** Multi-country placements separated across **Daily Top Music Videos (`VIDEOS`)**, **Weekly Top Music Videos (`WEEKLY`)**, and **Overall YouTube Trending (`TRENDING_VIDEOS`)**, with composite deduplication (`country_code`, `chart_type`, `chart_date`) and historical **`#1` Peak Preservation** (`all_time_best_rank`, `reached_number_one`, `previous_position`).
    - **Layer 4 (`top_comments_ranked.json` / `.csv`):** Top-engaged community comments sorted strictly by upvote count descending (`comment_sort=top;max_comments=60,60,0,0`), complete with `YYYY-MM-DD HH:MM PST` timestamps and direct YouTube comment permalinks (`&lc=`).
    - **Layer 5 (`share_cards_registry.json` / `.csv` + `share_cards_cache/`):** Official **1080×1920 (9:16)** vertical YouTube Charts share card JPEGs decoded from Base64 Protobuf `?r=` tokens, cached locally on disk, and exportable as named `.zip` bundles.
 
-2. **Zero-Video-ID Artist / Channel Top 100 Sweep (`sweep_youtube_artist_charts.py`):**
+2. **Automatic Debut-Window & Historical Chart Protocol:**
+   - **InnerTube Browse Protocol Fix:** Solved silent 0-hit chart queries on historical releases by enforcing `chart_params_end_date={compact_date}` (8-digit `YYYYMMDD` without hyphens) and explicit `chart_params_country_code=global` for worldwide charts.
+   - **Multi-Cycle Debut Sweep:** When sweeping older tracks (`hours_since_release > 72h`) or selecting `Debut / Release Day`, the engine automatically sweeps Day 1 (`upload_date` Daily), Day 2 (`upload_date + 1 day` momentum peak), and the first Thursday-ending `WEEKLY` cycle. Older music videos and songs instantly uncover their historical #1s, Top 5s, and official share cards without manual date guessing.
+
+3. **Zero-Video-ID Artist / Channel Top 100 Sweep (`sweep_youtube_artist_charts.py`):**
    - Accepts an artist name (`LISA`), YouTube handle (`@LISAOfficialVEVO`), channel URL, or `UC...` channel ID.
    - Automatically resolves official + VEVO/Label alias identities and sweeps Top 100 charts across 14 priority markets (~2s) or all 86 countries (~11s) **without requiring any video IDs upfront**.
 
-3. **Swiss-Industrial Web Console & Multi-Threaded API Server (`youtube_dossier_web_server.py`):**
+4. **Swiss-Industrial Web Console & Multi-Threaded API Server (`youtube_dossier_web_server.py`):**
    - **Artist / Channel Video Catalog Lookup & Shortlist Builder (`🔎 CATALOG LOOKUP`):** Query any artist name (`LISA`, `ROSÉ`), `@handle` (`@wearelloud`), channel ID (`UC...`), or YouTube URL to list their channel videos (~1s), filter by **Video Type** (`Official MV`, `Music / Track Video`, `Lyric / Audio`, `Performance / Live`, `Teaser / Film`, `Behind / Vlog`, `Short`) and **Added Status** (`✓ ALREADY ADDED` vs. `○ NOT ADDED`), shortlist subsets (`SELECT UNADDED VISIBLE`, `SHORTLIST NEW OFFICIAL MVs`), and batch-process 5-Layer Track Dossiers.
    - **URL Query String Routing (`history.pushState` / `popstate`):** Full browser Back/Forward navigation across views (`?view=track|artist|compare|lookup`), datasets (`&id=...`), tabs (`&tab=...`), and comparison layouts (`&layout=columns|rows`).
    - **Cross-Track Comparison Matrix (`⚖ COMPARE`):** Sortable leaderboard across all captured tracks plus a **Side-by-Side Columns (`▥`) vs. Stacked Strips (`☰`)** toggle comparing all 6 Overview KPI blocks row-for-row.
@@ -43,14 +47,21 @@ youtube-dossier-engine/
 ├── dashboards/
 │   └── youtube_dossier_console.html       # Compiled zero-dependency standalone console (with preloaded JSON)
 └── datasets/
-    └── youtube/                           # 5-Layer Track Dossiers & Artist Sweep datasets
+    └── youtube/                           # 5-Layer Track Dossiers & Artist Sweep datasets (14 tracks + 2 artists)
         ├── lisa_sawadika_FyS5dAywkEo/
         ├── lisa_tarantino_official_music_video_-5ZXrO_lYSA/
+        ├── lisa_born_again_feat_doja_cat_raye_offic_kbEC-AGr9n0/
+        ├── lisa_dream_feat_kentaro_sakaguchi_offici_FMX98ROVRCE/
+        ├── lisa_futw_vixi_solo_version_official_mus_r5VRqWkFpEQ/
+        ├── lisa_when_im_with_you_feat_tyla_official_wM--5vGraQQ/
+        ├── lisa_sawadika_dance_performance_video_J77i-E_0JWg/
+        ├── lisa_sawadika_tuktuk_radio_special_W3mlJNg0pzE/
+        ├── lisa_v12_lyric_video_mbYFoU3-B7Y/
         ├── jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/
+        ├── jisoo_addicted_official_mv_Pksr9T8m_aA/
         ├── rosé_new_trick_official_music_video_Lufa9QAFFeY/
         ├── jennie_fallen_angel_official_video_s466YCiHfKw/
         ├── megan_thee_stallion_thin_ice_tina_tuesda_9ofUM-_3uQ4/
-        ├── jisoo_addicted_official_mv_Pksr9T8m_aA/
         ├── artist_lisa/
         └── artist_megan_thee_stallion/
 ```

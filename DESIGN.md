@@ -61,3 +61,25 @@ Strictly monochromatic carbon/zinc surfaces with **International Signal Orange (
    - Data tables inside `.containment-region` automatically adapt to narrow containers while preserving sticky row headers (`tbody th`) and keyboard scroll regions (`tabindex="0" role="region"`).
 6. **State-Aware Sticky Headers (`IntersectionObserver`):**
    - `.sticky-tabs-container` uses an `IntersectionObserver` (`threshold: [1]`, `rootMargin: '-1px 0px 0px 0px'`) to toggle `.is-stuck` when scrolled, applying a subtle backdrop blur and shadow.
+
+---
+
+## 5. Historical Cycle Filters & Multi-Surface Sub-Grids
+
+1. **Dynamic Cycle & Period Selector (`#cycle-date-filter`):**
+   - Gathers every unique `chart_date` and `chart_week_label` across Daily and Weekly charts.
+   - Formats weekly periods as `Week Ending YYYY-MM-DD` while listing single daily snapshots as `YYYY-MM-DD`.
+   - Enables instant territory inspection across individual historical release days without triggering page reloads.
+
+2. **Live Rank Tier Filter (`#rank-tier-filter`):**
+   - Automatically parses current placements and previous peak history to present dynamic count badges:
+     - `All Current + Past #1s (N)`
+     - `Current #1 Champions (N)`
+     - `Past #1s Only — Prev / Historical (N)`
+     - `Top 5 Tier (<= #5)` / `Top 10 Tier (<= #10)` / `Top 20 Tier (<= #20)`
+
+3. **Multi-Surface Sub-Grids (`02 // MUSIC VIDEO CHARTS`):**
+   - Tab 2 cleanly divides placements into distinct, titled sections:
+     - `3A // DAILY TOP MUSIC VIDEOS CHART`: 24h finalized daily velocity cycles.
+     - `3C // WEEKLY TOP MUSIC VIDEOS CHART`: Official Thursday-ending weekly cycles (archives spanning back to 2016).
+

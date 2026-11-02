@@ -11,14 +11,26 @@ date: 2026-11-01
 `YT//DOSSIER_ENGINE` operates with **$0.00 API token cost** by combining two direct extraction mechanisms:
 
 1. **YouTube Charts InnerTube v1 (`https://charts.youtube.com/youtubei/v1/browse`):**
-   - **Browse ID:** `FEmusic_analytics`
+   - **Browse ID:** `FEmusic_analytics_charts_home`
    - **Client Context:** `WEB_MUSIC_ANALYTICS` (`clientVersion: "2.0"`)
-   - **Supported Surfaces:**
-     - `VIDEOS`: **Daily Top Music Videos** (Top 100 finalized 24-hour cycle per sovereign country or Global; typically lags wall-clock time by 24–48 hours).
-     - `TRENDING_VIDEOS`: **Overall YouTube Trending** (Top 20–100 live real-time snapshot per sovereign country).
+   - **Supported Surfaces & Period Types:**
+     - `VIDEOS` + `DAILY`: **Daily Top Music Videos** (Top 100 finalized 24-hour cycle per sovereign country or Global; typically lags wall-clock time by 24–48 hours).
+     - `VIDEOS` + `WEEKLY`: **Weekly Top Music Videos** (Top 100 official Thursday-ending weekly cycle; archives extend back to 2016).
+     - `TRENDING_VIDEOS`: **Overall YouTube Trending** (Top 20–100 live real-time feed snapshot per sovereign country).
    - **Supported Territories:** 86 sovereign ISO 3166-1 alpha-2 country codes plus `GLOBAL`.
+   - **Historical Date Protocol Requirements:**
+     - Parameter name: strictly `chart_params_end_date={YYYYMMDD}` (8-digit compact string without hyphens).
+     - Global queries: strictly `chart_params_country_code=global` (omitting defaults to US domestic).
+     - Country normalizations: `UK` mapped to `GB` in query parameters and client context.
 
-2. **YouTube Media & Top Comment Extraction (`yt-dlp`):**
+2. **Automatic Debut-Window Lookup Algorithm:**
+   - For tracks uploaded >72h ago, or when the user passes `--date release`, the engine resolves the release date `upload_date` and automatically checks:
+     - **Cycle 1**: `upload_date` (`DAILY`)
+     - **Cycle 2**: `upload_date + 1 day` (`DAILY` momentum peak)
+     - **Cycle 3**: First Thursday on or after `upload_date` (`WEEKLY` via `first_thursday_on_or_after`)
+   - Automatically bypasses live trending queries for videos released >7 days ago, eliminating redundant calls.
+
+3. **YouTube Media & Top Comment Extraction (`yt-dlp`):**
    - Extracts static video metadata, exact UTC `release_timestamp`, video/audio stream specs, description lyrics, and top community comments.
    - **Top Engaged Comment Extraction Args:**
      ```bash
@@ -67,7 +79,7 @@ Each track dossier folder (`datasets/youtube/<slug>_<video_id>/`) contains:
 | **Manifest** | `manifest.json` | — | Overwritten on each sync with updated `date_metrics` and `summary_metrics` |
 | **Layer 1: Metadata** | `video_metadata.json` | `video_metadata.csv` | `video_id` |
 | **Layer 2: Telemetry** | `video_telemetry_snapshot.json` | `video_telemetry_snapshot.csv` + `video_telemetry_history.csv` | Appends time-series row to `video_telemetry_history.csv` on every re-sweep |
-| **Layer 3: Rankings** | `country_chart_rankings.json` | `country_chart_rankings.csv` | Composite key `(country_code, chart_type, chart_date)` — merges new dates while preserving historical cycles |
+| **Layer 3: Rankings** | `country_chart_rankings.json` | `country_chart_rankings.csv` | Composite key `(country_code, chart_type, chart_date)` — merges Daily, Weekly, and Live Trending cycles; tracks `all_time_best_rank`, `reached_number_one`, `chart_week_label`, and share cards |
 | **Layer 4: Comments** | `top_comments_ranked.json` | `top_comments_ranked.csv` | `comment_id` — sorted by `likes_count` descending |
 | **Layer 5: Share Cards** | `share_cards_registry.json` | `share_cards_registry.csv` + `share_cards_cache/*.jpg` | Keyed by `country_code` + cached on disk in `share_cards_cache/` |
 
