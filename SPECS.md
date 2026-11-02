@@ -89,13 +89,16 @@ The Web Console synchronizes application state with the URL query string via `wi
 
 | Parameter | Allowed Values | Description |
 | :--- | :--- | :--- |
-| `view` | `track` \| `artist` \| `compare` | Active workspace mode |
+| `view` | `track` \| `artist` \| `compare` \| `lookup` | Active workspace mode |
 | `id` | `<dataset_folder_id>` or `<video_id>` | Active track or artist dataset identifier |
 | `tab` | `overview` \| `daily` \| `trending` \| `cards` \| `audience` \| `layers` | Active sub-view tab when `view=track` or `view=artist` |
 | `layout` | `columns` \| `rows` | Side-by-Side Columns (`columns`) vs. Stacked Strips (`rows`) on the `compare` view |
 | `sort` | `views_per_hour` \| `views` \| `likes` \| `like_ratio` \| `unique_countries` \| `ever_ones` \| `best_rank` \| `hours_since_release` \| `top_comment_likes` | Active sort metric on the `compare` view |
 | `dir` | `desc` \| `asc` | Sort direction on the `compare` view |
 | `pins` | Comma-separated `<track_id>` list | Pinned track IDs isolated in the Compare view |
+| `q` | Artist name, `@handle`, channel ID, or URL | Active query on the `lookup` view |
+| `type` | `ALL` \| `Official MV` \| `Lyric / Audio` \| `Performance / Live` \| `Teaser / Film` \| `Behind / Vlog` \| `Short` | Active video type filter on the `lookup` view |
+| `status` | `ALL` \| `NOT_ADDED` \| `ADDED` | Workspace added status filter on the `lookup` view |
 
 ---
 
@@ -106,6 +109,8 @@ The Web Console synchronizes application state with the URL query string via `wi
 | `GET` | `/` or `/index.html` | Compiles and serves the live interactive console HTML |
 | `GET` | `/api/datasets` | Returns full hydrated JSON payload for all Track Dossiers & Artist Sweeps |
 | `GET` | `/api/sweep/status` | Returns real-time progress (`current_idx`, `total_countries`, `hits_found`, `elapsed_sec`, `message`) |
+| `POST` | `/api/channel/lookup` | Resolves an artist/channel query, lists up to 120 channel videos, classifies video types, and flags `already_added` tracks |
+| `POST` | `/api/sweep/batch-tracks` | Sequentially compiles 5-Layer Track Dossiers for a shortlisted array of `video_ids` with live progress & cancel support |
 | `POST` | `/api/sweep/track` | Starts a Single-Track 5-Layer Dossier sweep (returns `409 Conflict` if a sweep is already active) |
 | `POST` | `/api/sweep/artist` | Starts an Artist / Channel Top 100 sweep |
 | `POST` | `/api/sweep/cancel` | Sets the thread-safe cancellation flag to abort an active sweep |

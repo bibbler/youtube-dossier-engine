@@ -17,6 +17,7 @@ import json
 import time
 import zipfile
 import threading
+import subprocess
 import urllib.parse
 import urllib.request
 import argparse
@@ -482,6 +483,254 @@ def load_all_youtube_datasets() -> dict:
         "key_markets": DEFAULT_KEY_MARKETS,
         "tracks": tracks,
         "artists": artists
+    }
+
+
+def classify_channel_video_type(title: str, duration_sec: int, url: str = "") -> str:
+    """Categorizes a channel video into a structured video type for filtering & shortlisting."""
+    t_low = (title or "").lower()
+    u_low = (url or "").lower()
+    dur = int(duration_sec or 0)
+
+    if "/shorts/" in u_low or "#shorts" in t_low or (0 < dur <= 62 and "teaser" not in t_low and "trailer" not in t_low):
+        return "Short"
+    if any(k in t_low for k in ["behind the scenes", "making of", "making film", "episode", "vlog", "diary", "q&a", "release party", "interview", "reaction", "unboxing", "bts"]):
+        return "Behind / Vlog"
+    if any(k in t_low for k in ["official music video", "official mv", "official m/v", "m/v)", "[m/v]", "(mv)", "music video)", "music video]"]):
+        return "Official MV"
+    if any(k in t_low for k in ["lyric video", "lyrics video", "(lyrics)", "official audio", "(audio)", "visualizer", "lyric"]):
+        return "Lyric / Audio"
+    if any(k in t_low for k in ["dance performance", "performance video", "special stage", "choreography", "dance practice", "live performance", "live at", "live clip", "band live", "vmas", "coachella", "grammy"]):
+        return "Performance / Live"
+    if any(k in t_low for k in ["teaser", "trailer", "concept film", "highlight medley", "sampler", "intro", "spoiler", "film clip", "track video"]) or (0 < dur < 85):
+        return "Teaser / Film"
+    if 110 <= dur <= 330:
+        return "Music / Track Video"
+    return "Channel Video"
+
+
+def format_duration_mmss(seconds_val) -> str:
+    sec = int(seconds_val or 0)
+    if sec <= 0:
+        return "—"
+    m, s = divmod(sec, 60)
+    h, m = divmod(m, 60)
+    if h > 0:
+        return f"{h}:{m:02d}:{s:02d}"
+    return f"{m}:{s:02d}"
+
+
+def lookup_artist_channel_catalog(query: str, max_items: int = 50) -> dict:
+    """
+    Resolves an artist name, @handle, channel ID (UC...), or YouTube channel URL,
+    fetches up to `max_items` videos from the channel (capped <= 120), categorizes
+    each video by type, and cross-references against existing local datasets.
+    """
+    q_clean = (query or "").strip()
+    if not q_clean:
+        raise ValueError("Empty artist or channel query.")
+
+    max_items = min(120, max(10, int(max_items or 50)))
+
+    # Build index of existing local datasets by video_id
+    existing_datasets = load_all_youtube_datasets()
+    added_track_map = {}
+    for t in existing_datasets.get("tracks", []):
+        vid = t.get("video_id")
+        if vid:
+            added_track_map[vid] = {
+                "dossier_id": t.get("id"),
+                "entity_name": t.get("entity_name"),
+                "generated_at_pst": t.get("generated_at_pst"),
+                "countries_charting": len({r.get("country_code") for r in (t.get("rankings") or []) if r.get("country_code")}),
+                "placements_count": len(t.get("rankings") or []),
+                "best_rank": min([int(r.get("all_time_best_rank") or r.get("rank_position") or 999) for r in (t.get("rankings") or [])], default=None)
+            }
+
+    artist_chart_map = {}
+    for a in existing_datasets.get("artists", []):
+        for r in (a.get("rankings") or []):
+            vid = r.get("video_id")
+            if vid:
+                cur = artist_chart_map.setdefault(vid, {"artist_id": a.get("id"), "artist_name": a.get("artist_name"), "placements": 0, "best_rank": 999})
+                cur["placements"] += 1
+                pos = int(r.get("rank_position") or 999)
+                if pos < cur["best_rank"]:
+                    cur["best_rank"] = pos
+
+    # Determine if query is a direct URL / @handle / UC... ID or a plain artist search
+    target_channel_url = None
+    discovered_channels = []
+
+    if q_clean.startswith("http://") or q_clean.startswith("https://"):
+        if "watch?v=" in q_clean or "youtu.be/" in q_clean:
+            # Resolve channel from video URL first
+            vid_id = extract_video_id(q_clean)
+            cmd_v = ["yt-dlp", "--dump-single-json", "--skip-download", "--playlist-end", "1", f"https://www.youtube.com/watch?v={vid_id}"]
+            res_v = subprocess.run(cmd_v, capture_output=True, text=True, timeout=15)
+            if res_v.stdout:
+                v_info = json.loads(res_v.stdout)
+                cid = v_info.get("channel_id")
+                if cid:
+                    target_channel_url = f"https://www.youtube.com/channel/{cid}/videos"
+        else:
+            base_u = q_clean.rstrip("/")
+            if not any(base_u.endswith(tab) for tab in ["/videos", "/releases", "/shorts", "/streams"]):
+                target_channel_url = base_u + "/videos"
+            else:
+                target_channel_url = base_u
+    elif q_clean.startswith("@"):
+        target_channel_url = f"https://www.youtube.com/{q_clean}/videos"
+    elif q_clean.startswith("UC") and len(q_clean) >= 20 and " " not in q_clean:
+        target_channel_url = f"https://www.youtube.com/channel/{q_clean}/videos"
+
+    search_fallback_entries = []
+    channel_info = {
+        "query": q_clean,
+        "channel_name": q_clean,
+        "channel_id": "",
+        "channel_handle": "",
+        "channel_url": "",
+        "related_channels": []
+    }
+
+    # If plain text artist name (or if @handle needs resolution), run a fast ytsearch8 first to discover official channels
+    if not target_channel_url:
+        search_cmd = [
+            "yt-dlp", "--flat-playlist", "--dump-single-json", "--playlist-end", "10",
+            f"ytsearch10:{q_clean} official music video"
+        ]
+        res_s = subprocess.run(search_cmd, capture_output=True, text=True, timeout=18)
+        if res_s.stdout and res_s.stdout.strip() != "null":
+            try:
+                s_data = json.loads(res_s.stdout)
+                s_entries = s_data.get("entries") or []
+                search_fallback_entries = s_entries
+                channel_counts = {}
+                for e in s_entries:
+                    cid = e.get("channel_id")
+                    cname = e.get("channel") or e.get("uploader") or ""
+                    curl = e.get("channel_url") or (f"https://www.youtube.com/channel/{cid}" if cid else "")
+                    if cid:
+                        info = channel_counts.setdefault(cid, {"channel_id": cid, "channel_name": cname, "channel_url": curl, "hits": 0, "views": 0})
+                        info["hits"] += 1
+                        info["views"] += int(e.get("view_count") or 0)
+                ranked_channels = sorted(channel_counts.values(), key=lambda x: (x["hits"], x["views"]), reverse=True)
+                discovered_channels = ranked_channels[:4]
+                if ranked_channels:
+                    best_ch = ranked_channels[0]
+                    target_channel_url = f"https://www.youtube.com/channel/{best_ch['channel_id']}/videos"
+                    channel_info["channel_name"] = best_ch["channel_name"]
+                    channel_info["channel_id"] = best_ch["channel_id"]
+                    channel_info["channel_url"] = best_ch["channel_url"]
+                    channel_info["related_channels"] = discovered_channels
+            except Exception:
+                pass
+
+    raw_entries = []
+    if target_channel_url:
+        tab_cmd = [
+            "yt-dlp", "--flat-playlist", "--dump-single-json",
+            "--playlist-end", str(max_items),
+            target_channel_url
+        ]
+        res_t = subprocess.run(tab_cmd, capture_output=True, text=True, timeout=22)
+        if res_t.stdout and res_t.stdout.strip() != "null":
+            try:
+                t_data = json.loads(res_t.stdout)
+                channel_info["channel_name"] = t_data.get("channel") or t_data.get("uploader") or t_data.get("title") or channel_info["channel_name"]
+                channel_info["channel_id"] = t_data.get("channel_id") or channel_info["channel_id"]
+                channel_info["channel_handle"] = t_data.get("uploader_id") or ""
+                channel_info["channel_url"] = t_data.get("channel_url") or (f"https://www.youtube.com/channel/{channel_info['channel_id']}" if channel_info["channel_id"] else target_channel_url.replace("/videos", ""))
+                raw_entries = t_data.get("entries") or []
+            except Exception:
+                pass
+
+    # If direct @handle failed (e.g. handle differed from artist name), fall back to ytsearch discovery
+    if not raw_entries and not search_fallback_entries:
+        search_cmd = [
+            "yt-dlp", "--flat-playlist", "--dump-single-json", "--playlist-end", str(min(30, max_items)),
+            f"ytsearch{min(30, max_items)}:{q_clean.lstrip('@')} official video"
+        ]
+        res_s2 = subprocess.run(search_cmd, capture_output=True, text=True, timeout=18)
+        if res_s2.stdout and res_s2.stdout.strip() != "null":
+            try:
+                s2_data = json.loads(res_s2.stdout)
+                s2_entries = s2_data.get("entries") or []
+                if s2_entries and s2_entries[0].get("channel_id"):
+                    cid = s2_entries[0]["channel_id"]
+                    channel_info["channel_id"] = cid
+                    channel_info["channel_name"] = s2_entries[0].get("channel") or q_clean
+                    channel_info["channel_url"] = f"https://www.youtube.com/channel/{cid}"
+                    tab_cmd2 = ["yt-dlp", "--flat-playlist", "--dump-single-json", "--playlist-end", str(max_items), f"https://www.youtube.com/channel/{cid}/videos"]
+                    res_t2 = subprocess.run(tab_cmd2, capture_output=True, text=True, timeout=20)
+                    if res_t2.stdout and res_t2.stdout.strip() != "null":
+                        t2_data = json.loads(res_t2.stdout)
+                        channel_info["channel_name"] = t2_data.get("channel") or channel_info["channel_name"]
+                        channel_info["channel_handle"] = t2_data.get("uploader_id") or ""
+                        raw_entries = t2_data.get("entries") or []
+                if not raw_entries:
+                    raw_entries = s2_entries
+            except Exception:
+                pass
+    elif not raw_entries and search_fallback_entries:
+        raw_entries = search_fallback_entries
+
+    seen_ids = set()
+    videos = []
+    type_counts = {}
+
+    for idx, item in enumerate(raw_entries, start=1):
+        vid = item.get("id")
+        if not vid or len(vid) != 11 or vid in seen_ids:
+            continue
+        seen_ids.add(vid)
+        title = item.get("title") or f"Video {vid}"
+        dur = int(item.get("duration") or 0)
+        views = int(item.get("view_count") or 0)
+        url = item.get("url") or f"https://www.youtube.com/watch?v={vid}"
+        vtype = classify_channel_video_type(title, dur, url)
+        type_counts[vtype] = type_counts.get(vtype, 0) + 1
+
+        thumbs = item.get("thumbnails") or []
+        thumb_url = thumbs[-1].get("url") if thumbs else f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg"
+
+        added_info = added_track_map.get(vid)
+        artist_chart_info = artist_chart_map.get(vid)
+
+        videos.append({
+            "index": len(videos) + 1,
+            "video_id": vid,
+            "title": title,
+            "channel_name": item.get("channel") or channel_info["channel_name"],
+            "channel_id": item.get("channel_id") or channel_info["channel_id"],
+            "view_count": views,
+            "duration_seconds": dur,
+            "duration_formatted": item.get("duration_string") or format_duration_mmss(dur),
+            "video_type": vtype,
+            "thumbnail_url": thumb_url,
+            "webpage_url": f"https://www.youtube.com/watch?v={vid}",
+            "already_added": bool(added_info),
+            "dossier_id": added_info["dossier_id"] if added_info else None,
+            "last_fetched_pst": added_info["generated_at_pst"] if added_info else None,
+            "countries_charting": added_info["countries_charting"] if added_info else None,
+            "best_rank": added_info["best_rank"] if added_info else (artist_chart_info["best_rank"] if artist_chart_info else None),
+            "in_artist_sweep": bool(artist_chart_info),
+            "artist_sweep_id": artist_chart_info["artist_id"] if artist_chart_info else None
+        })
+
+    already_added_count = sum(1 for v in videos if v["already_added"])
+    return {
+        "status": "ok",
+        "fetched_at_pst": datetime.now(zoneinfo.ZoneInfo("America/Los_Angeles")).strftime("%Y-%m-%d %H:%M:%S %Z"),
+        "channel": channel_info,
+        "summary": {
+            "total_videos_returned": len(videos),
+            "already_added_count": already_added_count,
+            "not_added_count": len(videos) - already_added_count,
+            "type_counts": type_counts
+        },
+        "videos": videos
     }
 
 
@@ -1665,6 +1914,87 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       border-bottom: none;
     }
 
+    /* Artist / Channel Catalog Lookup & Shortlist Builder */
+    .lookup-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+      padding: 14px;
+    }
+
+    .lookup-choice-card {
+      border: 2px solid var(--border-hairline);
+      background: var(--bg-canvas);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      position: relative;
+      transition: border-color 0.12s, background 0.12s;
+    }
+
+    .lookup-choice-card:hover {
+      border-color: var(--border-strong);
+      background: var(--bg-hover);
+    }
+
+    .lookup-choice-card:has(input[type="checkbox"]:checked) {
+      border-color: var(--accent-orange);
+      background: var(--bg-elevated);
+    }
+
+    .lookup-choice-card:has(input[type="checkbox"]:focus-visible) {
+      outline: 2px solid var(--accent-orange);
+      outline-offset: 2px;
+    }
+
+    .lookup-type-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-canvas);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: border-color 0.12s, color 0.12s, background 0.12s;
+    }
+
+    .lookup-type-pill.active {
+      border-color: var(--accent-orange);
+      background: var(--accent-orange-dim);
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .status-pill-added {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      border: 1px solid rgba(16, 185, 129, 0.5);
+      background: var(--accent-emerald-dim);
+      color: var(--accent-emerald);
+      white-space: nowrap;
+    }
+
+    .status-pill-new {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-canvas);
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
     .share-card-img-wrap {
       aspect-ratio: 9 / 16;
       width: 100%;
@@ -2110,6 +2440,17 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           />
         </div>
 
+        <button
+          type="button"
+          class="btn"
+          id="lookup-channel-btn"
+          onclick="triggerTopBarChannelLookup()"
+          title="Lookup Artist / Channel Videos to Filter & Shortlist before Processing (L)"
+          style="border-color: var(--accent-orange); color: var(--accent-orange);"
+        >
+          <span>🔎 LOOKUP VIDEOS</span>
+        </button>
+
         <select id="sweep-countries-select" class="select-control" aria-label="Territory Scope" title="Territory Scope">
           <option value="US,GB,TH,KR,JP,BR,FR,DE,AU,CA,ID,PH,MX,GLOBAL">14 Key Markets (~2s)</option>
           <option value="all">All 86 Countries (~11s)</option>
@@ -2154,6 +2495,9 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       </form>
 
       <div class="status-cluster">
+        <button type="button" class="btn" id="lookup-toggle-btn" onclick="openLookupView()" title="Artist / Channel Video Catalog Lookup & Shortlist Builder (L)">
+          <span>🔎 CATALOG LOOKUP</span>
+        </button>
         <button type="button" class="btn" id="compare-toggle-btn" onclick="openCompareView()" title="Compare & Sort All Track Dossiers (C)">
           <span>⚖ COMPARE</span>
         </button>
@@ -2315,7 +2659,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   <script>
     const STATE = {
       data: { tracks: [], artists: [], territories_catalog: [] },
-      activeKind: 'track',      // 'track' | 'artist' | 'compare'
+      activeKind: 'track',      // 'track' | 'artist' | 'compare' | 'lookup'
       activeId: null,
       activeTab: 'overview',    // 'overview' | 'daily' | 'trending' | 'cards' | 'audience' | 'layers'
       executionMode: 'track',   // 'track' | 'artist'
@@ -2328,7 +2672,18 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       compareFilterQuery: '',
       compareSelectedIds: new Set(),
       compareCardLayout: 'columns', // 'columns' | 'rows'
-      selectedCardKeys: new Set()   // Set of card keys selected in 9:16 Share Card Studio
+      selectedCardKeys: new Set(),  // Set of card keys selected in 9:16 Share Card Studio
+      lookupQuery: '@wearelloud',
+      lookupMaxItems: 50,
+      lookupLoading: false,
+      lookupData: null,
+      lookupTypeFilter: 'ALL',
+      lookupStatusFilter: 'ALL',    // 'ALL' | 'NOT_ADDED' | 'ADDED'
+      lookupSearchFilter: '',
+      lookupSortKey: 'index',       // 'index' | 'view_count' | 'duration_seconds' | 'title'
+      lookupSortDir: 'asc',
+      lookupLayout: 'table',        // 'table' | 'cards'
+      lookupSelectedIds: new Set()
     };
 
     function syncUrlState(replace = false) {
@@ -2342,6 +2697,10 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           if (STATE.compareSelectedIds.size > 0) {
             params.set('pins', Array.from(STATE.compareSelectedIds).join(','));
           }
+        } else if (STATE.activeKind === 'lookup') {
+          if (STATE.lookupQuery) params.set('q', STATE.lookupQuery);
+          if (STATE.lookupTypeFilter && STATE.lookupTypeFilter !== 'ALL') params.set('type', STATE.lookupTypeFilter);
+          if (STATE.lookupStatusFilter && STATE.lookupStatusFilter !== 'ALL') params.set('status', STATE.lookupStatusFilter);
         } else {
           if (STATE.activeId) params.set('id', STATE.activeId);
           if (STATE.activeTab && STATE.activeTab !== 'overview') params.set('tab', STATE.activeTab);
@@ -2370,6 +2729,17 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         const sort = params.get('sort');
         const dir = params.get('dir');
         const pins = params.get('pins');
+        const q = params.get('q');
+        const vtype = params.get('type');
+        const vstatus = params.get('status');
+
+        if (view === 'lookup') {
+          STATE.activeKind = 'lookup';
+          if (q) STATE.lookupQuery = q;
+          if (vtype) STATE.lookupTypeFilter = vtype;
+          if (vstatus) STATE.lookupStatusFilter = vstatus;
+          return true;
+        }
 
         if (view === 'compare') {
           STATE.activeKind = 'compare';
@@ -2542,6 +2912,9 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       initStickyHeaderObserver();
       renderAll(false);
       syncUrlState(true);
+      if (STATE.activeKind === 'lookup' && STATE.lookupQuery && !STATE.lookupData) {
+        executeChannelLookup(STATE.lookupQuery, STATE.lookupMaxItems);
+      }
 
       window.addEventListener('popstate', () => {
         applyUrlState();
@@ -2552,7 +2925,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         syncDrawerLayout();
       });
 
-      // Keyboard shortcuts: Cmd+K / Ctrl+K, [ (Left Sidebar), ] (Right Inspector), Escape
+      // Keyboard shortcuts: Cmd+K / Ctrl+K, [ (Left Sidebar), ] (Right Inspector), C (Compare), L (Lookup), Escape
       window.addEventListener('keydown', (e) => {
         const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
         const isTyping = tag === 'input' || tag === 'textarea' || tag === 'select';
@@ -2568,6 +2941,9 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         } else if (!isTyping && e.key.toLowerCase() === 'c') {
           e.preventDefault();
           openCompareView();
+        } else if (!isTyping && e.key.toLowerCase() === 'l') {
+          e.preventDefault();
+          openLookupView();
         } else if (e.key === 'Escape') {
           document.getElementById('cmd-backdrop').classList.remove('open');
           closeMobileDrawers();
@@ -2785,6 +3161,592 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         top_comment_author: topComment ? topComment.author_handle : '',
         raw: t
       };
+    }
+
+    function openLookupView(initialQuery = '') {
+      STATE.activeKind = 'lookup';
+      if (initialQuery && initialQuery.trim()) {
+        STATE.lookupQuery = initialQuery.trim();
+      }
+      if (window.innerWidth <= 900) {
+        STATE.sidebarOpen = false;
+        syncDrawerLayout();
+      }
+      renderAll(true);
+      if (STATE.lookupQuery && (!STATE.lookupData || STATE.lookupData.channel?.query !== STATE.lookupQuery)) {
+        executeChannelLookup(STATE.lookupQuery, STATE.lookupMaxItems);
+      }
+    }
+
+    function triggerTopBarChannelLookup() {
+      const val = (document.getElementById('sweep-target-input')?.value || '').trim();
+      if (val) {
+        openLookupView(val);
+      } else {
+        openLookupView(STATE.lookupQuery || '@wearelloud');
+      }
+    }
+
+    async function executeChannelLookup(queryOverride = null, maxItemsOverride = null) {
+      const q = (queryOverride !== null ? queryOverride : (document.getElementById('lookup-query-input')?.value || STATE.lookupQuery)).trim();
+      const maxIt = Number(maxItemsOverride || document.getElementById('lookup-max-select')?.value || STATE.lookupMaxItems || 50);
+      if (!q) {
+        showToast('Enter an artist name, @handle, channel ID (UC...), or YouTube URL to lookup.');
+        return;
+      }
+      STATE.lookupQuery = q;
+      STATE.lookupMaxItems = maxIt;
+      STATE.lookupLoading = true;
+      syncUrlState(true);
+      renderLookupWorkspace();
+
+      if (!STATE.apiOnline) {
+        STATE.lookupLoading = false;
+        showToast('Start the local Python server to query live YouTube channel catalogs.');
+        renderLookupWorkspace();
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/channel/lookup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: q, max_items: maxIt })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Channel lookup failed');
+        STATE.lookupData = data;
+        STATE.lookupTypeFilter = 'ALL';
+        STATE.lookupSelectedIds.clear();
+        showToast(`Loaded ${data.summary?.total_videos_returned || 0} videos from ${data.channel?.channel_name || q} (${data.elapsed_sec}s)`);
+      } catch (e) {
+        showToast(`Lookup Error: ${e.message}`, 5000);
+      } finally {
+        STATE.lookupLoading = false;
+        renderLookupWorkspace();
+      }
+    }
+
+    function getFilteredLookupVideos() {
+      const videos = STATE.lookupData?.videos || [];
+      const q = (STATE.lookupSearchFilter || '').trim().toLowerCase();
+      const tf = STATE.lookupTypeFilter || 'ALL';
+      const sf = STATE.lookupStatusFilter || 'ALL';
+
+      const filtered = videos.filter(v => {
+        if (tf !== 'ALL' && v.video_type !== tf) return false;
+        if (sf === 'NOT_ADDED' && v.already_added) return false;
+        if (sf === 'ADDED' && !v.already_added) return false;
+        if (q) {
+          const hit = (v.title || '').toLowerCase().includes(q) ||
+                      (v.video_id || '').toLowerCase().includes(q) ||
+                      (v.video_type || '').toLowerCase().includes(q) ||
+                      (v.channel_name || '').toLowerCase().includes(q);
+          if (!hit) return false;
+        }
+        return true;
+      });
+
+      const sk = STATE.lookupSortKey || 'index';
+      const dir = STATE.lookupSortDir === 'asc' ? 1 : -1;
+      filtered.sort((a, b) => {
+        const va = a[sk];
+        const vb = b[sk];
+        if (typeof va === 'string' && typeof vb === 'string') {
+          return va.localeCompare(vb) * dir;
+        }
+        return ((Number(va) || 0) - (Number(vb) || 0)) * dir;
+      });
+      return filtered;
+    }
+
+    function toggleLookupVideoSelection(videoId) {
+      if (STATE.lookupSelectedIds.has(videoId)) {
+        STATE.lookupSelectedIds.delete(videoId);
+      } else {
+        STATE.lookupSelectedIds.add(videoId);
+      }
+      renderLookupWorkspace();
+    }
+
+    function selectLookupPreset(preset) {
+      const visible = getFilteredLookupVideos();
+      if (preset === 'ALL_VISIBLE') {
+        visible.forEach(v => STATE.lookupSelectedIds.add(v.video_id));
+      } else if (preset === 'UNADDED_VISIBLE') {
+        STATE.lookupSelectedIds.clear();
+        visible.filter(v => !v.already_added).forEach(v => STATE.lookupSelectedIds.add(v.video_id));
+      } else if (preset === 'OFFICIAL_MVS') {
+        STATE.lookupSelectedIds.clear();
+        (STATE.lookupData?.videos || [])
+          .filter(v => v.video_type === 'Official MV' || v.video_type === 'Music / Track Video')
+          .forEach(v => STATE.lookupSelectedIds.add(v.video_id));
+      } else if (preset === 'UNADDED_MVS') {
+        STATE.lookupSelectedIds.clear();
+        (STATE.lookupData?.videos || [])
+          .filter(v => !v.already_added && (v.video_type === 'Official MV' || v.video_type === 'Music / Track Video'))
+          .forEach(v => STATE.lookupSelectedIds.add(v.video_id));
+      } else if (preset === 'CLEAR') {
+        STATE.lookupSelectedIds.clear();
+      }
+      renderLookupWorkspace();
+    }
+
+    function setLookupSort(key) {
+      if (STATE.lookupSortKey === key) {
+        STATE.lookupSortDir = STATE.lookupSortDir === 'desc' ? 'asc' : 'desc';
+      } else {
+        STATE.lookupSortKey = key;
+        STATE.lookupSortDir = key === 'view_count' ? 'desc' : 'asc';
+      }
+      renderLookupWorkspace();
+    }
+
+    async function processShortlistedVideos() {
+      const selectedIds = Array.from(STATE.lookupSelectedIds);
+      if (selectedIds.length === 0) {
+        showToast('Select at least 1 video from the catalog to process.');
+        return;
+      }
+      if (!STATE.apiOnline) {
+        showToast('Start the local Python server to batch-process shortlisted tracks.');
+        return;
+      }
+
+      const countries = document.getElementById('lookup-batch-countries')?.value || 'US,GB,TH,KR,JP,BR,FR,DE,AU,CA,ID,PH,MX,GLOBAL';
+      const dateSel = document.getElementById('lookup-batch-date')?.value || '';
+      const withComments = Boolean(document.getElementById('lookup-batch-comments')?.checked);
+
+      const btn = document.getElementById('process-shortlist-btn');
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = `PROCESSING ${selectedIds.length} TRACKS...`;
+      }
+
+      __sweepAbortController = new AbortController();
+      startSweepProgressPolling();
+      showToast(`Starting batch 5-Layer Dossier compilation for ${selectedIds.length} shortlisted video(s)...`, 5000);
+
+      try {
+        const res = await fetch('/api/sweep/batch-tracks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          signal: __sweepAbortController.signal,
+          body: JSON.stringify({
+            video_ids: selectedIds,
+            countries,
+            date: dateSel || null,
+            with_comments: withComments
+          })
+        });
+        const payload = await res.json();
+        if (!res.ok) throw new Error(payload.error || 'Batch dossier processing failed');
+
+        STATE.data = payload.datasets;
+        // Update already_added flags in current lookupData so badges immediately flip to green
+        const addedSet = new Set((STATE.data.tracks || []).map(t => t.video_id));
+        const trackByVid = new Map((STATE.data.tracks || []).map(t => [t.video_id, t]));
+        if (STATE.lookupData && Array.isArray(STATE.lookupData.videos)) {
+          STATE.lookupData.videos.forEach(v => {
+            if (addedSet.has(v.video_id)) {
+              const td = trackByVid.get(v.video_id);
+              v.already_added = true;
+              v.dossier_id = td?.id || v.dossier_id;
+              v.last_fetched_pst = td?.generated_at_pst || 'Just now';
+              v.countries_charting = new Set((td?.rankings || []).map(r => r.country_code)).size;
+            }
+          });
+          STATE.lookupData.summary.already_added_count = STATE.lookupData.videos.filter(v => v.already_added).length;
+          STATE.lookupData.summary.not_added_count = STATE.lookupData.videos.length - STATE.lookupData.summary.already_added_count;
+        }
+        STATE.lookupSelectedIds.clear();
+        renderAll(false);
+        showToast(`Compiled ${payload.compiled_count} track dossier(s) in ${payload.elapsed_sec}s!`);
+      } catch (err) {
+        if (err.name === 'AbortError' || String(err.message).toLowerCase().includes('cancel')) {
+          showToast('Batch processing cancelled by user.', 4500);
+        } else {
+          showToast(`Batch Error: ${err.message}`, 6000);
+        }
+      } finally {
+        __sweepAbortController = null;
+        stopSweepProgressPolling();
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = `🚀 PROCESS SELECTED (${STATE.lookupSelectedIds.size})`;
+        }
+      }
+    }
+
+    function renderLookupWorkspace() {
+      const headerMount = document.getElementById('entity-header-mount');
+      const kpiMount = document.getElementById('kpi-strip-mount');
+      const stickyTabs = document.getElementById('sticky-tabs-container');
+      const body = document.getElementById('workspace-body');
+
+      if (stickyTabs) stickyTabs.style.display = 'none';
+
+      const d = STATE.lookupData;
+      const ch = d?.channel || {};
+      const sum = d?.summary || { total_videos_returned: 0, already_added_count: 0, not_added_count: 0, type_counts: {} };
+      const allVideos = d?.videos || [];
+      const filtered = getFilteredLookupVideos();
+      const selectedCount = STATE.lookupSelectedIds.size;
+      const selectedAlreadyAdded = Array.from(STATE.lookupSelectedIds).filter(id => allVideos.find(v => v.video_id === id && v.already_added)).length;
+      const selectedNewCount = selectedCount - selectedAlreadyAdded;
+
+      const relatedCh = ch.related_channels || [];
+
+      headerMount.innerHTML = `
+        <section class="entity-header">
+          <div class="entity-identity">
+            <div class="entity-title-block">
+              <div class="entity-eyebrow">
+                <span style="color: var(--accent-orange); font-weight: 700;">00 // ARTIST & CHANNEL VIDEO CATALOG LOOKUP & SHORTLIST BUILDER</span>
+                <span>·</span>
+                <span>Resolve Official MVs, Lyric Videos, Performances & Shorts before running 5-Layer Dossiers</span>
+                ${d?.fetched_at_pst ? `<span>·</span><span style="color:var(--accent-emerald);">Fetched: ${escapeHtml(d.fetched_at_pst)}</span>` : ''}
+              </div>
+              <h1 class="entity-h1">${ch.channel_name ? `${escapeHtml(ch.channel_name)} — Channel Video Catalog` : 'Artist / Account Video Catalog Lookup'}</h1>
+            </div>
+          </div>
+
+          <form class="entity-actions" style="width:100%; margin-top:4px; display:flex; gap:8px; flex-wrap:wrap;" onsubmit="event.preventDefault(); executeChannelLookup();">
+            <input
+              type="text"
+              id="lookup-query-input"
+              class="input-control"
+              style="flex: 1 1 280px; min-width: 240px;"
+              placeholder="Enter Artist Name (LISA, ROSÉ, JISOO), @Handle (@wearelloud), Channel ID (UC...), or URL..."
+              value="${escapeHtml(STATE.lookupQuery)}"
+            />
+            <select id="lookup-max-select" class="select-control" title="Max channel videos to inspect">
+              <option value="30" ${STATE.lookupMaxItems === 30 ? 'selected' : ''}>Fetch Latest 30 Videos</option>
+              <option value="50" ${STATE.lookupMaxItems === 50 ? 'selected' : ''}>Fetch Latest 50 Videos</option>
+              <option value="80" ${STATE.lookupMaxItems === 80 ? 'selected' : ''}>Fetch Latest 80 Videos</option>
+              <option value="120" ${STATE.lookupMaxItems === 120 ? 'selected' : ''}>Fetch Latest 120 Videos</option>
+            </select>
+            <button type="submit" class="btn btn-primary" ${STATE.lookupLoading ? 'disabled' : ''}>
+              <span>${STATE.lookupLoading ? 'SCANNING CHANNEL...' : '🔎 FETCH CHANNEL VIDEOS'}</span>
+            </button>
+            ${ch.channel_url ? `<a class="btn" href="${escapeHtml(ch.channel_url)}" target="_blank" rel="noopener">OPEN CHANNEL ↗</a>` : ''}
+            ${ch.channel_name ? `<button type="button" class="btn" onclick="prefillResweep('artist', '${escapeHtml(ch.channel_url || ch.channel_name)}')" title="Sweep Top 100 Charts for this entire channel">TOP 100 CHART SWEEP</button>` : ''}
+          </form>
+
+          <!-- Quick Preset Artist / Channel Chips + Discovered Related Channels -->
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:4px;">
+            <span class="mono" style="font-size:10.5px; color:var(--text-muted);">QUICK CHANNELS:</span>
+            <button type="button" class="lookup-type-pill" onclick="executeChannelLookup('@wearelloud', STATE.lookupMaxItems)">LLOUD Official (@wearelloud)</button>
+            <button type="button" class="lookup-type-pill" onclick="executeChannelLookup('UCg3ymxYCmURj5BFtbgMt-Og', STATE.lookupMaxItems)">LISAOfficialVEVO</button>
+            <button type="button" class="lookup-type-pill" onclick="executeChannelLookup('ROSÉ Official', STATE.lookupMaxItems)">ROSÉ</button>
+            <button type="button" class="lookup-type-pill" onclick="executeChannelLookup('JENNIE Official', STATE.lookupMaxItems)">JENNIE</button>
+            <button type="button" class="lookup-type-pill" onclick="executeChannelLookup('JISOO Official', STATE.lookupMaxItems)">JISOO</button>
+            <button type="button" class="lookup-type-pill" onclick="executeChannelLookup('@BLACKPINK', STATE.lookupMaxItems)">BLACKPINK</button>
+            <button type="button" class="lookup-type-pill" onclick="executeChannelLookup('@MeganTheeStallion', STATE.lookupMaxItems)">Megan Thee Stallion</button>
+            ${relatedCh.length > 1 ? `
+              <span class="mono" style="font-size:10.5px; color:var(--accent-orange); margin-left:6px;">RELATED CHANNELS:</span>
+              ${relatedCh.map(rc => `
+                <button type="button" class="lookup-type-pill ${rc.channel_id === ch.channel_id ? 'active' : ''}" onclick="executeChannelLookup('${escapeHtml(rc.channel_id)}', STATE.lookupMaxItems)">
+                  ${escapeHtml(rc.channel_name)} (${rc.hits})
+                </button>
+              `).join('')}
+            ` : ''}
+          </div>
+        </section>
+      `;
+
+      const mvCount = (sum.type_counts?.['Official MV'] || 0) + (sum.type_counts?.['Music / Track Video'] || 0);
+      const lyricPerfCount = (sum.type_counts?.['Lyric / Audio'] || 0) + (sum.type_counts?.['Performance / Live'] || 0);
+
+      kpiMount.innerHTML = `
+        <section class="kpi-strip" aria-label="Channel Catalog Summary">
+          <div class="kpi-cell">
+            <span class="kpi-label">CHANNEL VIDEOS FETCHED</span>
+            <span class="kpi-value tabular">${sum.total_videos_returned}</span>
+            <span class="kpi-sub">${escapeHtml(ch.channel_handle || ch.channel_id || 'Ready to filter')}</span>
+          </div>
+          <div class="kpi-cell">
+            <span class="kpi-label">OFFICIAL MVs & TRACKS</span>
+            <span class="kpi-value tabular">${mvCount}</span>
+            <span class="kpi-sub accent-orange">Primary chart candidates</span>
+          </div>
+          <div class="kpi-cell">
+            <span class="kpi-label">LYRIC & PERFORMANCE</span>
+            <span class="kpi-value tabular">${lyricPerfCount}</span>
+            <span class="kpi-sub">Audio / Dance / Live stages</span>
+          </div>
+          <div class="kpi-cell">
+            <span class="kpi-label">ALREADY IN DOSSIERS</span>
+            <span class="kpi-value tabular" style="color:var(--accent-emerald);">${sum.already_added_count}</span>
+            <span class="kpi-sub accent-emerald">✓ Tracked in workspace</span>
+          </div>
+          <div class="kpi-cell">
+            <span class="kpi-label">NOT YET ADDED (NEW)</span>
+            <span class="kpi-value tabular">${sum.not_added_count}</span>
+            <span class="kpi-sub">Available to shortlist</span>
+          </div>
+          <div class="kpi-cell">
+            <span class="kpi-label">SHORTLISTED TO PROCESS</span>
+            <span class="kpi-value tabular" style="color:${selectedCount > 0 ? 'var(--accent-orange)' : 'var(--text-primary)'};">${selectedCount}</span>
+            <span class="kpi-sub">${selectedNewCount} new · ${selectedAlreadyAdded} re-sweep</span>
+          </div>
+        </section>
+      `;
+
+      if (STATE.lookupLoading) {
+        body.innerHTML = `
+          <section class="panel-block" style="padding:36px; text-align:center;">
+            <div style="display:inline-flex; align-items:center; gap:12px; font-family:var(--font-mono); color:var(--accent-orange); font-size:13px;">
+              <span class="sweep-spinner"></span>
+              <span>Querying YouTube channel catalog for <strong>${escapeHtml(STATE.lookupQuery)}</strong> (up to ${STATE.lookupMaxItems} videos)...</span>
+            </div>
+          </section>
+        `;
+        return;
+      }
+
+      if (!d || allVideos.length === 0) {
+        body.innerHTML = `
+          <section class="panel-block" style="padding:32px;">
+            <div class="mono" style="color:var(--text-secondary); font-size:12.5px;">
+              Enter any artist name, <code>@handle</code>, channel ID (<code>UC...</code>), or YouTube URL above and click <strong>[🔎 FETCH CHANNEL VIDEOS]</strong> to inspect their video catalog, filter by video type (Official MV, Lyric/Audio, Performance, Teaser, Behind/Vlog, Short), see which tracks are already added, and batch-build 5-Layer Track Dossiers.
+            </div>
+          </section>
+        `;
+        return;
+      }
+
+      const typeKeys = ['ALL', 'Official MV', 'Music / Track Video', 'Lyric / Audio', 'Performance / Live', 'Teaser / Film', 'Behind / Vlog', 'Short', 'Channel Video'];
+      const activeTypes = typeKeys.filter(tk => tk === 'ALL' || (sum.type_counts && sum.type_counts[tk] > 0));
+      const sortArrow = (k) => STATE.lookupSortKey === k ? (STATE.lookupSortDir === 'desc' ? ' ↓' : ' ↑') : '';
+      const thStyle = 'cursor:pointer; user-select:none;';
+
+      const allVisibleSelected = filtered.length > 0 && filtered.every(v => STATE.lookupSelectedIds.has(v.video_id));
+      const someVisibleSelected = filtered.some(v => STATE.lookupSelectedIds.has(v.video_id));
+
+      body.innerHTML = `
+        <!-- Shortlist & Filter Execution Bar -->
+        <section class="panel-block">
+          <div class="panel-header" style="flex-wrap:wrap; gap:10px;">
+            <div class="panel-title-group" style="flex-wrap:wrap; gap:6px;">
+              <span class="panel-title">01 // FILTER BY VIDEO TYPE & ADDED STATUS</span>
+              ${activeTypes.map(tk => {
+                const cnt = tk === 'ALL' ? allVideos.length : (sum.type_counts[tk] || 0);
+                return `
+                  <button
+                    type="button"
+                    class="lookup-type-pill ${STATE.lookupTypeFilter === tk ? 'active' : ''}"
+                    onclick="STATE.lookupTypeFilter = '${escapeHtml(tk)}'; syncUrlState(true); renderLookupWorkspace();"
+                  >${escapeHtml(tk)} (${cnt})</button>
+                `;
+              }).join('')}
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <input
+                type="text"
+                class="input-control"
+                style="width:190px; height:26px;"
+                placeholder="Filter video title or ID..."
+                value="${escapeHtml(STATE.lookupSearchFilter)}"
+                oninput="STATE.lookupSearchFilter = this.value; renderLookupWorkspace();"
+              />
+              <select class="select-control" style="height:26px;" onchange="STATE.lookupStatusFilter = this.value; syncUrlState(true); renderLookupWorkspace();">
+                <option value="ALL" ${STATE.lookupStatusFilter === 'ALL' ? 'selected' : ''}>Status: All Videos (${allVideos.length})</option>
+                <option value="NOT_ADDED" ${STATE.lookupStatusFilter === 'NOT_ADDED' ? 'selected' : ''}>Status: Not Added Only (${sum.not_added_count})</option>
+                <option value="ADDED" ${STATE.lookupStatusFilter === 'ADDED' ? 'selected' : ''}>Status: Already Added (${sum.already_added_count})</option>
+              </select>
+              <div class="mode-segmented" role="group" aria-label="Catalog View Mode">
+                <button type="button" class="mode-btn ${STATE.lookupLayout === 'table' ? 'active' : ''}" onclick="STATE.lookupLayout = 'table'; renderLookupWorkspace();">☰ TABLE</button>
+                <button type="button" class="mode-btn ${STATE.lookupLayout === 'cards' ? 'active' : ''}" onclick="STATE.lookupLayout = 'cards'; renderLookupWorkspace();">▥ CARDS</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shortlist Action & Batch Processing Bar -->
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:var(--bg-canvas); border-bottom:1px solid var(--border-hairline); gap:10px; flex-wrap:wrap;">
+            <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+              <span class="mono" style="font-size:10.5px; color:var(--text-muted); font-weight:700;">SHORTLIST PRESETS:</span>
+              <button type="button" class="btn" style="height:24px; padding:0 8px; font-size:10.5px;" onclick="selectLookupPreset('ALL_VISIBLE')">SELECT ALL VISIBLE (${filtered.length})</button>
+              <button type="button" class="btn" style="height:24px; padding:0 8px; font-size:10.5px;" onclick="selectLookupPreset('UNADDED_VISIBLE')">SELECT UNADDED VISIBLE (${filtered.filter(v => !v.already_added).length})</button>
+              <button type="button" class="btn" style="height:24px; padding:0 8px; font-size:10.5px;" onclick="selectLookupPreset('UNADDED_MVS')">SHORTLIST NEW OFFICIAL MVs</button>
+              <button type="button" class="btn" style="height:24px; padding:0 8px; font-size:10.5px;" onclick="selectLookupPreset('OFFICIAL_MVS')">ALL OFFICIAL MVs (${mvCount})</button>
+              <button type="button" class="btn" style="height:24px; padding:0 8px; font-size:10.5px;" onclick="selectLookupPreset('CLEAR')" ${selectedCount === 0 ? 'disabled' : ''}>CLEAR (${selectedCount})</button>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <select id="lookup-batch-countries" class="select-control" style="height:26px;" title="Territory Scope for Batch Processing">
+                <option value="US,GB,TH,KR,JP,BR,FR,DE,AU,CA,ID,PH,MX,GLOBAL">14 Key Markets (~2s/track)</option>
+                <option value="all">All 86 Countries (~11s/track)</option>
+                <option value="US,GB,GLOBAL">US + UK + Global (~1s/track)</option>
+                <option value="TH,ID,PH,SG,MY,TW,HK,KR,JP">APAC Priority (9)</option>
+              </select>
+              <select id="lookup-batch-date" class="select-control" style="height:26px;" title="Chart Date Scope">
+                <option value="">Latest + Trending</option>
+                <option value="release">Debut / Release Day</option>
+                <option value="yesterday">Yesterday Cycle</option>
+              </select>
+              <label class="checkbox-pill" style="height:26px;" title="Fetch Top 20 Engaged Community Comments for each selected track">
+                <input type="checkbox" id="lookup-batch-comments" checked />
+                <span>+Top Comments</span>
+              </label>
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="process-shortlist-btn"
+                style="height:26px; padding:0 12px;"
+                onclick="processShortlistedVideos()"
+                ${selectedCount === 0 ? 'disabled' : ''}
+              >
+                <span>🚀 PROCESS SELECTED (${selectedCount})</span>
+              </button>
+            </div>
+          </div>
+
+          ${STATE.lookupLayout === 'table' ? `
+            <div tabindex="0" role="region" aria-label="Channel Video Catalog Table" class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width:42px;">
+                      <label style="display:inline-flex; align-items:center; justify-content:center; min-width:24px; min-height:24px; cursor:pointer;" title="Select / Deselect All Visible Videos">
+                        <input
+                          type="checkbox"
+                          id="lookup-master-checkbox"
+                          ${allVisibleSelected ? 'checked' : ''}
+                          onchange="selectLookupPreset(this.checked ? 'ALL_VISIBLE' : 'CLEAR')"
+                          style="accent-color:var(--accent-orange); inline-size:1.15em; aspect-ratio:1; cursor:pointer;"
+                        />
+                      </label>
+                    </th>
+                    <th style="${thStyle}" onclick="setLookupSort('index')">#${sortArrow('index')}</th>
+                    <th style="${thStyle}" onclick="setLookupSort('title')">VIDEO TITLE${sortArrow('title')}</th>
+                    <th>VIDEO TYPE</th>
+                    <th>WORKSPACE STATUS</th>
+                    <th style="${thStyle}" onclick="setLookupSort('view_count')">CHANNEL VIEWS${sortArrow('view_count')}</th>
+                    <th style="${thStyle}" onclick="setLookupSort('duration_seconds')">DURATION${sortArrow('duration_seconds')}</th>
+                    <th>VIDEO ID</th>
+                    <th>ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${filtered.map(v => {
+                    const isSel = STATE.lookupSelectedIds.has(v.video_id);
+                    const typeColor = v.video_type === 'Official MV'
+                      ? 'var(--accent-orange)'
+                      : (v.video_type === 'Lyric / Audio' || v.video_type === 'Performance / Live' ? 'var(--accent-emerald)' : 'var(--text-secondary)');
+                    return `
+                      <tr class="${isSel ? 'selected-row' : ''}" onclick="toggleLookupVideoSelection('${escapeHtml(v.video_id)}')">
+                        <td onclick="event.stopPropagation();">
+                          <label style="display:inline-flex; align-items:center; justify-content:center; min-width:28px; min-height:28px; cursor:pointer;">
+                            <input
+                              type="checkbox"
+                              ${isSel ? 'checked' : ''}
+                              onchange="toggleLookupVideoSelection('${escapeHtml(v.video_id)}')"
+                              style="accent-color:var(--accent-orange); inline-size:1.15em; aspect-ratio:1; cursor:pointer;"
+                            />
+                          </label>
+                        </td>
+                        <td class="mono tabular" style="color:var(--text-muted);">#${v.index}</td>
+                        <th scope="row">
+                          <div style="display:flex; align-items:center; gap:10px;">
+                            <img src="${escapeHtml(v.thumbnail_url)}" alt="" style="width:52px; height:29px; object-fit:cover; border:1px solid var(--border-strong); flex-shrink:0;" loading="lazy" />
+                            <div>
+                              <div style="color:var(--text-primary); font-weight:600; white-space:normal; line-height:1.3;">${escapeHtml(v.title)}</div>
+                              <div class="mono" style="font-size:10px; color:var(--text-muted);">${escapeHtml(v.channel_name)}</div>
+                            </div>
+                          </div>
+                        </th>
+                        <td>
+                          <span class="peak-badge" style="color:${typeColor}; border-color:${v.video_type === 'Official MV' ? 'rgba(255,85,0,0.45)' : 'var(--border-strong)'};">
+                            ${escapeHtml(v.video_type)}
+                          </span>
+                        </td>
+                        <td>
+                          ${v.already_added ? `
+                            <div style="display:flex; flex-direction:column; gap:2px;">
+                              <span class="status-pill-added">✓ ALREADY ADDED${v.countries_charting ? ` · ${v.countries_charting} MKTS` : ''}${v.best_rank && v.best_rank < 999 ? ` · PEAK #${v.best_rank}` : ''}</span>
+                              ${v.last_fetched_pst ? `<span class="mono" style="font-size:9.5px; color:var(--text-muted);">Synced: ${escapeHtml(v.last_fetched_pst)}</span>` : ''}
+                            </div>
+                          ` : (v.in_artist_sweep ? `
+                            <span class="status-pill-added" style="border-color:rgba(245,158,11,0.5); color:var(--accent-amber); background:rgba(245,158,11,0.12);">
+                              ★ IN ARTIST SWEEP (PEAK #${v.best_rank}) · NO DOSSIER YET
+                            </span>
+                          ` : `
+                            <span class="status-pill-new">○ NOT ADDED</span>
+                          `)}
+                        </td>
+                        <td class="mono tabular" style="font-weight:600; color:var(--text-primary);">${v.view_count ? formatNumber(v.view_count) : '—'}</td>
+                        <td class="mono tabular">${escapeHtml(v.duration_formatted)}</td>
+                        <td class="mono">
+                          <a href="${escapeHtml(v.webpage_url)}" target="_blank" rel="noopener" onclick="event.stopPropagation();" style="color:var(--accent-orange); text-decoration:none;">
+                            ${escapeHtml(v.video_id)} ↗
+                          </a>
+                        </td>
+                        <td onclick="event.stopPropagation();">
+                          <div style="display:flex; align-items:center; gap:6px;">
+                            ${v.already_added && v.dossier_id ? `
+                              <button type="button" class="btn" style="height:24px; padding:0 8px; font-size:10px; border-color:var(--accent-emerald); color:var(--accent-emerald);" onclick="selectEntity('track', '${escapeHtml(v.dossier_id)}')">OPEN DOSSIER →</button>
+                            ` : `
+                              <button type="button" class="btn" style="height:24px; padding:0 8px; font-size:10px;" onclick="STATE.lookupSelectedIds.clear(); STATE.lookupSelectedIds.add('${escapeHtml(v.video_id)}'); processShortlistedVideos();">PROCESS NOW</button>
+                            `}
+                          </div>
+                        </td>
+                      </tr>
+                    `;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          ` : `
+            <div class="lookup-cards-grid">
+              ${filtered.map(v => {
+                const isSel = STATE.lookupSelectedIds.has(v.video_id);
+                return `
+                  <label class="lookup-choice-card">
+                    <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 10px; background:var(--bg-elevated); border-bottom:1px solid var(--border-hairline);">
+                      <span style="display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:11px; font-weight:600;">
+                        <input
+                          type="checkbox"
+                          ${isSel ? 'checked' : ''}
+                          onchange="toggleLookupVideoSelection('${escapeHtml(v.video_id)}')"
+                          style="accent-color:var(--accent-orange); inline-size:1.15em; aspect-ratio:1; cursor:pointer;"
+                        />
+                        <span>#${v.index} · ${escapeHtml(v.video_type)}</span>
+                      </span>
+                      ${v.already_added
+                        ? `<span class="status-pill-added">✓ ADDED</span>`
+                        : `<span class="status-pill-new">NEW</span>`
+                      }
+                    </div>
+                    <img src="${escapeHtml(v.thumbnail_url)}" alt="" style="width:100%; aspect-ratio:16/9; object-fit:cover; border-bottom:1px solid var(--border-hairline);" loading="lazy" />
+                    <div style="padding:10px 12px; display:flex; flex-direction:column; gap:6px; flex:1;">
+                      <strong style="font-size:12.5px; color:var(--text-primary); line-height:1.35;">${escapeHtml(v.title)}</strong>
+                      <div class="mono tabular" style="font-size:11px; color:var(--text-secondary); display:flex; justify-content:space-between;">
+                        <span>${v.view_count ? formatNumber(v.view_count) + ' views' : '—'}</span>
+                        <span>${escapeHtml(v.duration_formatted)}</span>
+                      </div>
+                      <div style="display:flex; align-items:center; justify-content:space-between; gap:6px; margin-top:auto; padding-top:6px; border-top:1px solid var(--border-hairline);">
+                        <a class="mono" href="${escapeHtml(v.webpage_url)}" target="_blank" rel="noopener" onclick="event.stopPropagation();" style="font-size:10.5px; color:var(--accent-orange); text-decoration:none;">${escapeHtml(v.video_id)} ↗</a>
+                        ${v.already_added && v.dossier_id
+                          ? `<button type="button" class="btn" style="height:22px; padding:0 7px; font-size:10px; border-color:var(--accent-emerald); color:var(--accent-emerald);" onclick="event.preventDefault(); event.stopPropagation(); selectEntity('track', '${escapeHtml(v.dossier_id)}');">OPEN DOSSIER →</button>`
+                          : `<button type="button" class="btn" style="height:22px; padding:0 7px; font-size:10px;" onclick="event.preventDefault(); event.stopPropagation(); STATE.lookupSelectedIds.clear(); STATE.lookupSelectedIds.add('${escapeHtml(v.video_id)}'); processShortlistedVideos();">PROCESS</button>`
+                        }
+                      </div>
+                    </div>
+                  </label>
+                `;
+              }).join('')}
+            </div>
+          `}
+        </section>
+      `;
+
+      // Set indeterminate state on master checkbox when partially selected
+      const masterCb = document.getElementById('lookup-master-checkbox');
+      if (masterCb) {
+        masterCb.indeterminate = someVisibleSelected && !allVisibleSelected;
+      }
     }
 
     function openCompareView() {
@@ -3278,6 +4240,16 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         cmpBtn.style.borderColor = STATE.activeKind === 'compare' ? 'var(--accent-orange)' : 'var(--border-strong)';
         cmpBtn.style.color = STATE.activeKind === 'compare' ? 'var(--accent-orange)' : 'var(--text-primary)';
       }
+      const lkpBtn = document.getElementById('lookup-toggle-btn');
+      if (lkpBtn) {
+        lkpBtn.style.borderColor = STATE.activeKind === 'lookup' ? 'var(--accent-orange)' : 'var(--border-strong)';
+        lkpBtn.style.color = STATE.activeKind === 'lookup' ? 'var(--accent-orange)' : 'var(--text-primary)';
+      }
+
+      if (STATE.activeKind === 'lookup') {
+        renderLookupWorkspace();
+        return;
+      }
 
       if (STATE.activeKind === 'compare') {
         renderCompareWorkspace();
@@ -3310,7 +4282,15 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       const cmpListEl = document.getElementById('rail-compare-list');
       if (cmpListEl) {
         const isCompareActive = STATE.activeKind === 'compare';
+        const isLookupActive = STATE.activeKind === 'lookup';
         cmpListEl.innerHTML = `
+          <button type="button" class="rail-item ${isLookupActive ? 'active' : ''}" onclick="openLookupView()">
+            <div class="rail-item-title">🔎 Channel Video Lookup & Shortlist</div>
+            <div class="rail-item-meta">
+              <span class="tabular">Filter MVs · Batch Process</span>
+              <span class="rail-pill tabular" style="border-color:var(--accent-orange); color:var(--accent-orange);">LOOKUP</span>
+            </div>
+          </button>
           <button type="button" class="rail-item ${isCompareActive ? 'active' : ''}" onclick="openCompareView()">
             <div class="rail-item-title">⚖ Compare All Track Dossiers</div>
             <div class="rail-item-meta">
@@ -4454,6 +5434,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       });
 
       items.push(
+        { title: 'Open Artist / Channel Video Catalog Lookup & Shortlist Builder (L)', meta: 'Lookup', action: () => { toggleCommandPalette(); openLookupView(); } },
         { title: 'Open Cross-Track Benchmark & Overview Comparison (C)', meta: 'Compare', action: () => { toggleCommandPalette(); openCompareView(); } },
         { title: 'Toggle Left Datasets Sidebar ([)', meta: 'Layout', action: () => { toggleCommandPalette(); toggleSidebar(); } },
         { title: 'Toggle Right 9:16 Card Inspector (])', meta: 'Layout', action: () => { toggleCommandPalette(); toggleInspector(); } },
@@ -4609,6 +5590,101 @@ class DossierWebHandler(BaseHTTPRequestHandler):
 
         t0 = time.time()
         try:
+            if path == "/api/channel/lookup":
+                query = (body.get("query") or "").strip()
+                max_items = int(body.get("max_items") or 50)
+                if not query:
+                    self._send_json(400, {"error": "Please provide an artist name, @handle, channel ID, or URL."})
+                    return
+                result = lookup_artist_channel_catalog(query=query, max_items=max_items)
+                result["elapsed_sec"] = round(time.time() - t0, 2)
+                self._send_json(200, result)
+                return
+
+            if path == "/api/sweep/batch-tracks":
+                video_ids = body.get("video_ids") or []
+                countries = body.get("countries") or "US,GB,TH,KR,JP,BR,FR,DE,AU,CA,ID,PH,MX,GLOBAL"
+                target_date = body.get("date") or None
+                with_comments = bool(body.get("with_comments", False))
+
+                clean_ids = []
+                for v in video_ids:
+                    vid = extract_video_id(str(v).strip())
+                    if vid and vid not in clean_ids:
+                        clean_ids.append(vid)
+
+                if not clean_ids:
+                    self._send_json(400, {"error": "No valid 11-character YouTube video IDs selected for batch processing."})
+                    return
+                if len(clean_ids) > 25:
+                    clean_ids = clean_ids[:25]
+
+                with SWEEP_STATE_LOCK:
+                    if SWEEP_STATE["active"]:
+                        self._send_json(409, {
+                            "error": f"A sweep is already running ({SWEEP_STATE['mode'].upper()}: {SWEEP_STATE['target']}). Wait for completion or click [■ STOP] to cancel."
+                        })
+                        return
+                    SWEEP_STATE.update({
+                        "active": True,
+                        "cancelled": False,
+                        "mode": "batch",
+                        "target": f"{len(clean_ids)} shortlisted tracks",
+                        "signature": f"batch:{','.join(clean_ids)}",
+                        "started_at": t0,
+                        "current_idx": 0,
+                        "total_countries": len(clean_ids),
+                        "current_country_code": "",
+                        "current_country_name": "",
+                        "hits_found": 0,
+                        "message": f"Starting batch 5-Layer Dossier compilation for {len(clean_ids)} tracks..."
+                    })
+
+                compiled_ids = []
+                total_tracks = len(clean_ids)
+                try:
+                    for idx_t, vid in enumerate(clean_ids, start=1):
+                        if is_sweep_cancelled():
+                            raise RuntimeError(f"Batch sweep cancelled after {len(compiled_ids)}/{total_tracks} tracks.")
+
+                        def _sub_progress(c_idx, c_tot, cc, cname, hits, msg, _i=idx_t, _v=vid):
+                            update_sweep_progress(
+                                c_idx,
+                                c_tot,
+                                cc,
+                                cname,
+                                hits,
+                                f"[Track {_i}/{total_tracks} · {_v}] {msg}"
+                            )
+
+                        out_dir = build_dossier(
+                            video_input=vid,
+                            target_date=target_date,
+                            country_filter=countries,
+                            max_comments=20 if with_comments else 0,
+                            include_comments=with_comments,
+                            cancel_check=is_sweep_cancelled,
+                            progress_callback=_sub_progress
+                        )
+                        compiled_ids.append(os.path.basename(out_dir.rstrip("/")))
+
+                    datasets = load_all_youtube_datasets()
+                    build_standalone_html()
+                    self._send_json(200, {
+                        "status": "ok",
+                        "compiled_count": len(compiled_ids),
+                        "compiled_ids": compiled_ids,
+                        "active_id": compiled_ids[0] if compiled_ids else None,
+                        "elapsed_sec": round(time.time() - t0, 2),
+                        "datasets": datasets
+                    })
+                finally:
+                    with SWEEP_STATE_LOCK:
+                        SWEEP_STATE["active"] = False
+                        SWEEP_STATE["cancelled"] = False
+                        SWEEP_STATE["message"] = "Idle"
+                return
+
             if path == "/api/share-cards/cache-all":
                 folder = os.path.basename(body.get("folder") or "")
                 items = body.get("items") or []
