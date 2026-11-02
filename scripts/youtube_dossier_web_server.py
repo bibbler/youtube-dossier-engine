@@ -4544,7 +4544,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
     function renderTabsBar(entity) {
       const rankings = entity.rankings || [];
-      const dailyCnt = rankings.filter(r => r.chart_type === 'Daily Top Music Videos').length;
+      const dailyCnt = rankings.filter(r => r.chart_type === 'Daily Top Music Videos' || r.chart_type === 'Weekly Top Music Videos').length;
       const trendCnt = rankings.filter(r => r.chart_type === 'Overall YouTube Trending').length;
       const cardsCnt = rankings.filter(r => r.share_card_url).length;
       const commentsCnt = (entity.comments || []).length;
@@ -4590,7 +4590,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
       const tabs = [
         { id: 'overview', label: `01 // PEAK HIGHLIGHTS & SURFACES (${rankings.length})` },
-        { id: 'daily', label: `02 // DAILY MUSIC VIDEOS (${dailyCnt})` },
+        { id: 'daily', label: `02 // MUSIC VIDEO CHARTS (${dailyCnt})` },
         { id: 'trending', label: `03 // LIVE TRENDING (${trendCnt})` },
         { id: 'cards', label: `04 // 9:16 SHARE CARD STUDIO (${cardsCnt})` }
       ];
@@ -4823,16 +4823,28 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         `;
       } else if (STATE.activeTab === 'daily') {
         const dailyRows = allRankings.filter(r => r.chart_type === 'Daily Top Music Videos');
+        const weeklyRows = allRankings.filter(r => r.chart_type === 'Weekly Top Music Videos');
         body.innerHTML = `
           <section class="panel-block">
             <div class="panel-header">
               <div class="panel-title-group">
                 <span class="panel-title">3A // DAILY TOP MUSIC VIDEOS CHART (${dailyRows.length} PLACEMENTS)</span>
               </div>
-              <span class="panel-subtitle">Cycle: ${escapeHtml(entity.date_metrics?.daily_chart_cycle || 'Latest Active')}</span>
+              <span class="panel-subtitle">Cycle: ${escapeHtml(entity.date_metrics?.daily_chart_cycle || 'Finalized 24h Daily Cycles')}</span>
             </div>
             ${buildPlacementTableHtml(dailyRows, 'Daily Top Music Videos Full Matrix', isArtist)}
           </section>
+          ${weeklyRows.length > 0 ? `
+            <section class="panel-block" style="margin-top: 16px;">
+              <div class="panel-header">
+                <div class="panel-title-group">
+                  <span class="panel-title">3C // WEEKLY TOP MUSIC VIDEOS CHART (${weeklyRows.length} PLACEMENTS)</span>
+                </div>
+                <span class="panel-subtitle">CHART_PARAMS_PERIOD_TYPE=WEEKLY · Official Thursday-Ending Cycles</span>
+              </div>
+              ${buildPlacementTableHtml(weeklyRows, 'Weekly Top Music Videos Full Matrix', isArtist)}
+            </section>
+          ` : ''}
         `;
       } else if (STATE.activeTab === 'trending') {
         const trendingRows = allRankings.filter(r => r.chart_type === 'Overall YouTube Trending');

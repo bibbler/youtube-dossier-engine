@@ -205,11 +205,29 @@ def format_chart_date_val(raw_val) -> str:
             pass
     return s
 
+def first_thursday_on_or_after(date_str: str) -> str:
+    """Calculates the end date (Thursday) for YouTube Charts Weekly cycle corresponding to a release date."""
+    if not date_str or len(date_str) < 8:
+        return ""
+    try:
+        clean_date = date_str.replace("-", "").strip()
+        dt = datetime.strptime(clean_date[:8], "%Y%m%d")
+        days_ahead = (3 - dt.weekday()) % 7
+        if days_ahead == 0 and dt.weekday() == 3:
+            target_thursday = dt + timedelta(days=7)
+        else:
+            target_thursday = dt + timedelta(days=days_ahead)
+        return target_thursday.strftime("%Y-%m-%d")
+    except Exception:
+        return ""
+
 def query_innertube_chart(country_code: str, chart_type: str, period_type: str = None, target_date: str = None) -> tuple:
     """Queries YouTube Charts InnerTube API for a specific country and chart type. Returns (videoViews, endDate)."""
     url = "https://charts.youtube.com/youtubei/v1/browse?alt=json"
     is_global = (country_code or "").strip().upper() in ["GLOBAL", "WORLDWIDE", ""]
     gl_code = "US" if is_global else country_code.strip().upper()
+    if gl_code == "UK":
+        gl_code = "GB"
 
     context = {
         "client": {
@@ -221,13 +239,17 @@ def query_innertube_chart(country_code: str, chart_type: str, period_type: str =
         }
     }
     query_parts = ["perspective=CHART_DETAILS"]
-    if not is_global:
-        query_parts.append(f"chart_params_country_code={country_code.lower()}")
+    if is_global:
+        query_parts.append("chart_params_country_code=global")
+    else:
+        c_code = "gb" if country_code.strip().lower() == "uk" else country_code.strip().lower()
+        query_parts.append(f"chart_params_country_code={c_code}")
     query_parts.append(f"chart_params_chart_type={chart_type}")
     if period_type:
         query_parts.append(f"chart_params_period_type={period_type}")
-    if target_date and period_type == "DAILY":
-        query_parts.append(f"chart_params_date={target_date}")
+    if target_date:
+        compact_date = target_date.replace("-", "").strip()
+        query_parts.append(f"chart_params_end_date={compact_date}")
 
     query = "&".join(query_parts)
     payload = {
@@ -259,92 +281,123 @@ def query_innertube_chart(country_code: str, chart_type: str, period_type: str =
         return [], ""
 
 def sweep_country_charts(video_id: str, countries: list, target_date: str = None,
+                         upload_date: str = None, hours_since_release: float = None,
                          cancel_check=None, progress_callback=None) -> tuple:
-    """Sweeps specified countries for chart placements and official share card URLs."""
+    """
+    Sweeps specified countries for chart placements and official share card URLs.
+    Supports both latest active cycles and debut-window lookups across Daily and Weekly charts.
+    """
     print(f"[+] Sweeping {len(countries)} territories on YouTube Charts InnerTube API...")
     rankings = []
     share_cards = {}
     discovered_daily_date = target_date
     total_c = len(countries)
 
+    # Determine debut window queries (d0, d1, w1)
+    debut_cycles = []
+    is_older = False
+    if upload_date and len(upload_date.replace("-", "")) >= 8:
+        try:
+            up_clean = upload_date.replace("-", "")[:8]
+            dt_up = datetime.strptime(up_clean, "%Y%m%d")
+            d0_str = dt_up.strftime("%Y-%m-%d")
+            d1_str = (dt_up + timedelta(days=1)).strftime("%Y-%m-%d")
+            w1_str = first_thursday_on_or_after(d0_str)
+
+            if hours_since_release is not None and hours_since_release > 72:
+                is_older = True
+            else:
+                now_utc = datetime.now(timezone.utc)
+                if (now_utc - dt_up.replace(tzinfo=timezone.utc)).total_seconds() > 72 * 3600:
+                    is_older = True
+
+            is_explicit_debut = bool(target_date and target_date.replace("-", "")[:8] == up_clean)
+
+            if is_older or is_explicit_debut or (target_date is None):
+                debut_cycles.append(("DAILY", d0_str, "Daily Top Music Videos"))
+                if d1_str != d0_str:
+                    debut_cycles.append(("DAILY", d1_str, "Daily Top Music Videos"))
+                if w1_str:
+                    debut_cycles.append(("WEEKLY", w1_str, "Weekly Top Music Videos"))
+        except Exception as e:
+            print(f"[!] Warning calculating debut window: {e}")
+
     for idx, cc in enumerate(countries, start=1):
         if cancel_check and cancel_check():
             raise RuntimeError("Sweep cancelled by user.")
 
-        found = False
         cc_clean = cc.strip().upper()
+        if cc_clean == "UK":
+            cc_clean = "GB"
         country_name = COUNTRY_NAMES.get(cc_clean, cc_clean)
         if progress_callback:
             progress_callback(idx, total_c, cc_clean, country_name, len(rankings), f"Scanning {country_name} ({cc_clean})...")
 
-        # 1. Check Daily Top Music Videos
-        entries, chart_end_date = query_innertube_chart(cc_clean, chart_type="VIDEOS", period_type="DAILY", target_date=target_date)
-        if chart_end_date and not discovered_daily_date:
-            discovered_daily_date = chart_end_date
+        # Build list of queries to run for this country
+        query_schedule = []
+        if target_date:
+            query_schedule.append(("DAILY", target_date, "Daily Top Music Videos"))
+        else:
+            query_schedule.append(("DAILY", None, "Daily Top Music Videos"))
+            # Skip live trending for older releases (>7 days) to eliminate wasted calls
+            if not is_older:
+                query_schedule.append(("TRENDING_VIDEOS", None, "Overall YouTube Trending"))
 
-        for rank_idx, item in enumerate(entries, start=1):
-            if item.get("id") == video_id:
-                meta = item.get("chartEntryMetadata", {})
-                pos = meta.get("currentPosition") or rank_idx
-                prev_pos = meta.get("previousPosition")
-                share_url = item.get("shareCardUrl", "")
+        # Merge debut window cycles if active
+        for ptype, dval, s_label in debut_cycles:
+            if not any(q[0] == ptype and q[1] == dval for q in query_schedule):
+                query_schedule.append((ptype, dval, s_label))
 
-                chart_date_val = target_date if target_date else (chart_end_date or "Latest Daily")
-
-                status_label = classify_peak_rank(pos)
-                rankings.append({
-                    "country_code": cc_clean,
-                    "country_name": country_name,
-                    "chart_type": "Daily Top Music Videos",
-                    "rank_position": pos,
-                    "previous_position": prev_pos,
-                    "status": status_label,
-                    "video_id": video_id,
-                    "chart_date": chart_date_val,
-                    "share_card_url": share_url
-                })
-                if share_url:
-                    share_cards[cc_clean] = share_url
-                print(f"  [{idx}/{total_c}] {country_name} ({cc_clean}): #{pos} in Daily Top Music Videos ({chart_date_val})")
-                if progress_callback:
-                    progress_callback(idx, total_c, cc_clean, country_name, len(rankings), f"Hit #{pos} in {country_name} ({cc_clean}) Daily Music Videos")
-                found = True
-                break
-
-        # 2. Check Trending Videos (if no historical date passed, as trending is live-only)
-        if not target_date:
+        checked_keys = set()
+        for ptype, dval, surface_label in query_schedule:
             if cancel_check and cancel_check():
                 raise RuntimeError("Sweep cancelled by user.")
-            trending_entries, _ = query_innertube_chart(cc_clean, chart_type="TRENDING_VIDEOS")
-            for t_rank, t_item in enumerate(trending_entries, start=1):
-                if t_item.get("id") == video_id:
-                    t_meta = t_item.get("chartEntryMetadata", {})
-                    t_pos = t_meta.get("currentPosition") or t_rank
-                    t_share = t_item.get("shareCardUrl", "")
 
+            q_key = (ptype, dval)
+            if q_key in checked_keys:
+                continue
+            checked_keys.add(q_key)
+
+            if ptype == "TRENDING_VIDEOS":
+                entries, _ = query_innertube_chart(cc_clean, chart_type="TRENDING_VIDEOS")
+                c_date_val = "Live Snapshot"
+                wk_label = "Live Snapshot"
+            else:
+                entries, chart_end_date = query_innertube_chart(cc_clean, chart_type="VIDEOS", period_type=ptype, target_date=dval)
+                if chart_end_date and not discovered_daily_date:
+                    discovered_daily_date = chart_end_date
+                c_date_val = dval if dval else (chart_end_date or "Latest Daily")
+                wk_label = f"Week Ending {c_date_val}" if ptype == "WEEKLY" else c_date_val
+
+            for rank_idx, item in enumerate(entries, start=1):
+                if item.get("id") == video_id:
+                    meta = item.get("chartEntryMetadata", {})
+                    pos = meta.get("currentPosition") or rank_idx
+                    prev_pos = meta.get("previousPosition")
+                    share_url = item.get("shareCardUrl", "")
+
+                    status_label = classify_peak_rank(pos)
                     rankings.append({
                         "country_code": cc_clean,
                         "country_name": country_name,
-                        "chart_type": "Overall YouTube Trending",
-                        "rank_position": t_pos,
-                        "previous_position": t_meta.get("previousPosition"),
-                        "status": classify_peak_rank(t_pos),
+                        "chart_type": surface_label,
+                        "rank_position": pos,
+                        "previous_position": prev_pos,
+                        "status": status_label,
                         "video_id": video_id,
-                        "chart_date": "Live Snapshot",
-                        "share_card_url": t_share
+                        "chart_date": c_date_val,
+                        "chart_week_label": wk_label,
+                        "share_card_url": share_url
                     })
-                    if t_share and cc_clean not in share_cards:
-                        share_cards[cc_clean] = t_share
-                    print(f"  [{idx}/{total_c}] {country_name} ({cc_clean}): #{t_pos} in Overall Trending")
+                    if share_url and cc_clean not in share_cards:
+                        share_cards[cc_clean] = share_url
+
+                    print(f"  [{idx}/{total_c}] {country_name} ({cc_clean}): #{pos} in {surface_label} ({c_date_val})")
                     if progress_callback:
-                        progress_callback(idx, total_c, cc_clean, country_name, len(rankings), f"Hit #{t_pos} in {country_name} ({cc_clean}) Live Trending")
-                    found = True
+                        progress_callback(idx, total_c, cc_clean, country_name, len(rankings), f"Hit #{pos} in {country_name} ({cc_clean}) {surface_label} ({c_date_val})")
                     break
 
-        if not found and idx % 10 == 0:
-            print(f"  ... checked {idx}/{total_c} countries")
-
-        time.sleep(0.12)  # Cooldown guardrail against IP limits
+        time.sleep(0.06)  # Cooldown guardrail against IP limits
 
     return rankings, share_cards, discovered_daily_date
 
@@ -520,6 +573,8 @@ def build_dossier(video_input: str, target_date: str = None, country_filter: str
             video_id,
             countries_to_check,
             target_date=resolved_target_date,
+            upload_date=upload_date_fmt,
+            hours_since_release=hours_since_release,
             cancel_check=cancel_check,
             progress_callback=progress_callback
         )
@@ -543,6 +598,31 @@ def build_dossier(video_input: str, target_date: str = None, country_filter: str
         combined_rankings_map[(r.get("country_code"), r.get("chart_type"), str(r.get("chart_date")))] = r
     final_rankings = list(combined_rankings_map.values())
 
+    # Calculate all-time best rank and reached_number_one per country across all known cycles
+    best_rank_by_country = {}
+    for r in final_rankings:
+        cc = r.get("country_code")
+        pos = r.get("rank_position")
+        prev = r.get("previous_position")
+        try:
+            p_val = int(pos) if pos else 999
+        except (ValueError, TypeError):
+            p_val = 999
+        try:
+            prev_val = int(prev) if prev else 999
+        except (ValueError, TypeError):
+            prev_val = 999
+        min_p = min(p_val, prev_val)
+        if cc not in best_rank_by_country or min_p < best_rank_by_country[cc]:
+            best_rank_by_country[cc] = min_p
+
+    for r in final_rankings:
+        cc = r.get("country_code")
+        best = best_rank_by_country.get(cc)
+        if best and best < 999:
+            r["all_time_best_rank"] = best
+            r["reached_number_one"] = (best == 1)
+
     # Sort final rankings: Live Snapshot first, then by date descending, then rank ascending
     def sort_ranking_key(item):
         c_date = str(item.get("chart_date", ""))
@@ -560,7 +640,8 @@ def build_dossier(video_input: str, target_date: str = None, country_filter: str
 
     chart_fieldnames = [
         "country_code", "country_name", "chart_type", "rank_position",
-        "previous_position", "status", "chart_date", "video_id", "share_card_url"
+        "previous_position", "all_time_best_rank", "reached_number_one",
+        "status", "chart_date", "chart_week_label", "video_id", "share_card_url"
     ]
     with open(os.path.join(output_dir, "country_chart_rankings.csv"), "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=chart_fieldnames, extrasaction="ignore")

@@ -1,0 +1,38 @@
+[
+  {
+    "country_code": "AU",
+    "share_card_url": "https://charts.youtube.com/image/analytics/charts?r=IrwBCAISZwolRlhDSyBVUCBUSEUgV09STEQgKFZpeGkgU29sbyBWZXJzaW9uKRI0aHR0cHM6Ly9pLnl0aW1nLmNvbS92aS9yNVZScVdrRnBFUS9tYXhyZXNkZWZhdWx0LmpwZxoCMTIiBExJU0EaOQodV2Vla2x5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSCUF1c3RyYWxpYRoLTWFyIDYsIDIwMjU4AyISCgcjMDAwMDAwEgcjRUI3RDNGMAE"
+  },
+  {
+    "country_code": "CA",
+    "share_card_url": "https://charts.youtube.com/image/analytics/charts?r=IrkBCAISZwolRlhDSyBVUCBUSEUgV09STEQgKFZpeGkgU29sbyBWZXJzaW9uKRI0aHR0cHM6Ly9pLnl0aW1nLmNvbS92aS9yNVZScVdrRnBFUS9tYXhyZXNkZWZhdWx0LmpwZxoCMjIiBExJU0EaNgodV2Vla2x5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSBkNhbmFkYRoLTWFyIDYsIDIwMjU4AyISCgcjMDAwMDAwEgcjNkVDOTgyMAE"
+  },
+  {
+    "country_code": "DE",
+    "share_card_url": "https://charts.youtube.com/image/analytics/charts?r=IroBCAISZwolRlhDSyBVUCBUSEUgV09STEQgKFZpeGkgU29sbyBWZXJzaW9uKRI0aHR0cHM6Ly9pLnl0aW1nLmNvbS92aS9yNVZScVdrRnBFUS9tYXhyZXNkZWZhdWx0LmpwZxoCNDAiBExJU0EaNwodV2Vla2x5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSB0dlcm1hbnkaC01hciA2LCAyMDI1OAMiEgoHIzAwMDAwMBIHI0ZGQkI1NDAB"
+  },
+  {
+    "country_code": "FR",
+    "share_card_url": "https://charts.youtube.com/image/analytics/charts?r=IrkBCAISZwolRlhDSyBVUCBUSEUgV09STEQgKFZpeGkgU29sbyBWZXJzaW9uKRI0aHR0cHM6Ly9pLnl0aW1nLmNvbS92aS9yNVZScVdrRnBFUS9tYXhyZXNkZWZhdWx0LmpwZxoCNTYiBExJU0EaNgodV2Vla2x5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSBkZyYW5jZRoLTWFyIDYsIDIwMjU4AyISCgcjMDAwMDAwEgcjREYyQThDMAE"
+  },
+  {
+    "country_code": "GB",
+    "share_card_url": "https://charts.youtube.com/image/analytics/charts?r=IsEBCAISZwolRlhDSyBVUCBUSEUgV09STEQgKFZpeGkgU29sbyBWZXJzaW9uKRI0aHR0cHM6Ly9pLnl0aW1nLmNvbS92aS9yNVZScVdrRnBFUS9tYXhyZXNkZWZhdWx0LmpwZxoCMjgiBExJU0EaPgodV2Vla2x5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSDlVuaXRlZCBLaW5nZG9tGgtNYXIgNiwgMjAyNTgDIhIKByMwMDAwMDASByNCMjIyMjIwAQ"
+  },
+  {
+    "country_code": "GLOBAL",
+    "share_card_url": "https://charts.youtube.com/image/analytics/charts?r=IrkBCAISZwolRlhDSyBVUCBUSEUgV09STEQgKFZpeGkgU29sbyBWZXJzaW9uKRI0aHR0cHM6Ly9pLnl0aW1nLmNvbS92aS9yNVZScVdrRnBFUS9tYXhyZXNkZWZhdWx0LmpwZxoCMTQiBExJU0EaNgodV2Vla2x5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSBkdsb2JhbBoLTWFyIDYsIDIwMjU4AyISCgcjMDAwMDAwEgcjNkY2REU5MAE"
+  },
+  {
+    "country_code": "ID",
+    "share_card_url": "https://charts.youtube.com/image/analytics/charts?r=IrwBCAISZwolRlhDSyBVUCBUSEUgV09STEQgKFZpeGkgU29sbyBWZXJzaW9uKRI0aHR0cHM6Ly9pLnl0aW1nLmNvbS92aS9yNVZScVdrRnBFUS9tYXhyZXNkZWZhdWx0LmpwZxoCNTUiBExJU0EaOQodV2Vla2x5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSCUluZG9uZXNpYRoLTWFyIDYsIDIwMjU4AyISCgcjMDAwMDAwEgcjQkM0MjcwMAE"
+  },
+  {
+    "country_code": "KR",
+    "share_card_url": "https://charts.youtube.com/image/analytics/charts?r=Ir4BCAISZwolRlhDSyBVUCBUSEUgV09STEQgKFZpeGkgU29sbyBWZXJzaW9uKRI0aHR0cHM6Ly9pLnl0aW1nLmNvbS92aS9yNVZScVdrRnBFUS9tYXhyZXNkZWZhdWx0LmpwZxoCMjMiBExJU0EaOwodV2Vla2x5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSC1NvdXRoIEtvcmVhGgtNYXIgNiwgMjAyNTgDIhIKByMwMDAwMDASByM1Q0E2QTYwAQ"
+  },
+  {
+    "country_code": "US",
+    "share_card_url": "https://charts.youtube.com/image/analytics/charts?r=IsABCAISZwolRlhDSyBVUCBUSEUgV09STEQgKFZpeGkgU29sbyBWZXJzaW9uKRI0aHR0cHM6Ly9pLnl0aW1nLmNvbS92aS9yNVZScVdrRnBFUS9tYXhyZXNkZWZhdWx0LmpwZxoCNDAiBExJU0EaPQodV2Vla2x5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSDVVuaXRlZCBTdGF0ZXMaC01hciA2LCAyMDI1OAMiEgoHIzAwMDAwMBIHI0ZGNTQ1NDAB"
+  }
+]

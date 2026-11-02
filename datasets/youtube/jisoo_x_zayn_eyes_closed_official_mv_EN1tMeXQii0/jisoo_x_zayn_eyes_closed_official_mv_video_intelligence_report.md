@@ -1,7 +1,7 @@
 ---
 feature: YouTube Video Intelligence Dossier
 status: Final
-date: 2026-11-01
+date: 2026-11-02
 ---
 
 # 🚀 JISOO X ZAYN - EYES CLOSED (OFFICIAL MV) — Video Intelligence Report
@@ -9,12 +9,12 @@ date: 2026-11-01
 > **Target Video ID:** `EN1tMeXQii0`  
 > **Official URL:** [https://www.youtube.com/watch?v=EN1tMeXQii0](https://www.youtube.com/watch?v=EN1tMeXQii0)  
 > **Channel:** **JISOO** (985 Subscribers)  
-> **Snapshot Timestamp:** `2026-11-01 17:28:06 PST`  
+> **Snapshot Timestamp:** `2026-11-02 03:00:27 PST`  
 > **Date Scope Target:** `Latest Active Daily Cycle + Live Trending Snapshot (Default)`  
 > **Daily Music Chart Cycle:** `2026-10-31 (Finalized 24h YouTube music chart cycle; ~24-48h calculation lag)`  
-> **Trending Feed State:** `Live Snapshot Evaluated (No active trending positions in queried territories at 2026-11-01 17:28:06 PST)`  
-> **Dataset Date Coverage:** `Single Snapshot (2026-11-01 17:28:06 PST)`  
-> **Dataset Path:** [`/Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/blackpink-twitter/data/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/blackpink-twitter/data/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0)  
+> **Trending Feed State:** `Live Snapshot Evaluated (No active trending positions in queried territories at 2026-11-02 03:00:27 PST)`  
+> **Dataset Date Coverage:** `Daily Charts: 2025-10-10 to 2025-10-16 (3 cycles)`  
+> **Dataset Path:** [`/Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/youtube-dossier-engine/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/youtube-dossier-engine/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0)  
 
 ---
 
@@ -22,11 +22,11 @@ date: 2026-11-01
 
 | Metric | Measured Value | Velocity / Ratio | Status |
 | :--- | :--- | :--- | :--- |
-| **Total Views** | **113,303,170** | **12,171 views/hr** | Mega-Viral |
-| **Total Likes** | **2,643,934** | **284 likes/hr** | Active Engagement |
-| **Total Comments** | **20** | **0 comments/hr** | Community Discussion |
+| **Total Views** | **113,332,673** | **12,161 views/hr** | Mega-Viral |
+| **Total Likes** | **2,644,153** | **284 likes/hr** | Active Engagement |
+| **Total Comments** | **198,000** | **21 comments/hr** | Community Discussion |
 | **Like-to-View Ratio** | **2.33%** | Conversion Efficiency | Organic Sentiment |
-| **Hours Since Debut** | **~9309.5 hours** | Released 2025-10-10 | Active Velocity |
+| **Hours Since Debut** | **~9319.0 hours** | Released 2025-10-10 | Active Velocity |
 | **Virality Tier** | **Mega-Viral** | Telemetry Tier | Global Market Footprint |
 
 ---
@@ -34,15 +34,42 @@ date: 2026-11-01
 ## 🌟 2. Select Top Territory Placements (Peak Highlights)
 
 Curated showcase of peak chart positions, key international markets, and national trending highlights:
+
+> 🏆 **#1 Champion Countries (1):** `Global / Worldwide 🌐`
+
 | Country | Flag | Code | Surface / Chart Type | Rank Position | Chart Date | Peak Classification | Visual Asset |
 | :--- | :---: | :---: | :--- | :---: | :---: | :--- | :---: |
-| *No top territory placements recorded* | - | - | - | - | - | - | - |
+| **Global / Worldwide** | 🌐 | `GLOBAL` | Daily Top Music Videos | **#1** | `2025-10-10` | 🥇 #1 Champion | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqUBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATEiBUpJU09PIgRaQVlOGjYKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSBkdsb2JhbBoMT2N0IDEwLCAyMDI1OAMiEgoHIzZGNkRFORIHIzAwMDAwMDAB) |
+| **Global / Worldwide** | 🌐 | `GLOBAL` | Weekly Top Music Videos | **#2** | `2025-10-16` | 🥈 Top 2 Tier | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATIiBUpJU09PIgRaQVlOGjcKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgZHbG9iYWwaDE9jdCAxNiwgMjAyNTgDIhIKByMwMDAwMDASByM2RjZERTkwAQ) |
+| **Global / Worldwide** | 🌐 | `GLOBAL` | Daily Top Music Videos | **#2** | `2025-10-11` | 🥈 Top 2 Tier | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqUBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATIiBUpJU09PIgRaQVlOGjYKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSBkdsb2JhbBoMT2N0IDExLCAyMDI1OAMiEgoHIzZGNkRFORIHIzAwMDAwMDAB) |
+| **South Korea** | 🇰🇷 | `KR` | Daily Top Music Videos | **#2** | `2025-10-11` | 🥈 Top 2 Tier | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqoBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATIiBUpJU09PIgRaQVlOGjsKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSC1NvdXRoIEtvcmVhGgxPY3QgMTEsIDIwMjU4AyISCgcjNUNBNkE2EgcjMDAwMDAwMAE) |
+| **Canada** | 🇨🇦 | `CA` | Daily Top Music Videos | **#3** | `2025-10-10` | 🥉 Top 3 Tier | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqUBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATMiBUpJU09PIgRaQVlOGjYKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSBkNhbmFkYRoMT2N0IDEwLCAyMDI1OAMiEgoHIzZFQzk4MhIHIzAwMDAwMDAB) |
+| **Indonesia** | 🇮🇩 | `ID` | Daily Top Music Videos | **#3** | `2025-10-11` | 🥉 Top 3 Tier | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqgBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATMiBUpJU09PIgRaQVlOGjkKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSCUluZG9uZXNpYRoMT2N0IDExLCAyMDI1OAMiEgoHI2IwMzA2MBIHIzAwMDAwMDAB) |
+| **Indonesia** | 🇮🇩 | `ID` | Daily Top Music Videos | **#3** | `2025-10-10` | 🥉 Top 3 Tier | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqgBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATMiBUpJU09PIgRaQVlOGjkKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSCUluZG9uZXNpYRoMT2N0IDEwLCAyMDI1OAMiEgoHI2IwMzA2MBIHIzAwMDAwMDAB) |
+| **Australia** | 🇦🇺 | `AU` | Weekly Top Music Videos | **#4** | `2025-10-16` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqkBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjoKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EglBdXN0cmFsaWEaDE9jdCAxNiwgMjAyNTgDIhIKByMwMDAwMDASByNFQjdEM0YwAQ) |
+| **Australia** | 🇦🇺 | `AU` | Daily Top Music Videos | **#4** | `2025-10-11` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqgBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjkKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSCUF1c3RyYWxpYRoMT2N0IDExLCAyMDI1OAMiEgoHI0VCN0QzRhIHIzAwMDAwMDAB) |
+| **Canada** | 🇨🇦 | `CA` | Daily Top Music Videos | **#4** | `2025-10-11` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqUBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjYKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSBkNhbmFkYRoMT2N0IDExLCAyMDI1OAMiEgoHIzZFQzk4MhIHIzAwMDAwMDAB) |
+| **Germany** | 🇩🇪 | `DE` | Daily Top Music Videos | **#4** | `2025-10-10` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjcKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSB0dlcm1hbnkaDE9jdCAxMCwgMjAyNTgDIhIKByNGRkJCNTQSByMwMDAwMDAwAQ) |
+| **Indonesia** | 🇮🇩 | `ID` | Weekly Top Music Videos | **#4** | `2025-10-16` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqkBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjoKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EglJbmRvbmVzaWEaDE9jdCAxNiwgMjAyNTgDIhIKByMwMDAwMDASByNCQzQyNzAwAQ) |
+| **South Korea** | 🇰🇷 | `KR` | Weekly Top Music Videos | **#4** | `2025-10-16` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqsBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjwKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgtTb3V0aCBLb3JlYRoMT2N0IDE2LCAyMDI1OAMiEgoHIzAwMDAwMBIHIzVDQTZBNjAB) |
+| **South Korea** | 🇰🇷 | `KR` | Daily Top Music Videos | **#4** | `2025-10-10` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqoBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjsKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSC1NvdXRoIEtvcmVhGgxPY3QgMTAsIDIwMjU4AyISCgcjNUNBNkE2EgcjMDAwMDAwMAE) |
+| **United Kingdom** | 🇬🇧 | `GB` | Daily Top Music Videos | **#4** | `2025-10-10` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=Iq0BCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGj4KHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSDlVuaXRlZCBLaW5nZG9tGgxPY3QgMTAsIDIwMjU4AyISCgcjQjIyMjIyEgcjMDAwMDAwMAE) |
+| **United States** | 🇺🇸 | `US` | Daily Top Music Videos | **#4** | `2025-10-10` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqwBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGj0KHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSDVVuaXRlZCBTdGF0ZXMaDE9jdCAxMCwgMjAyNTgDIhIKByNGODQ0NDQSByMwMDAwMDAwAQ) |
+| **Australia** | 🇦🇺 | `AU` | Daily Top Music Videos | **#5** | `2025-10-10` | 🎖️ Top 5 Tier (#5) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqgBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATUiBUpJU09PIgRaQVlOGjkKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSCUF1c3RyYWxpYRoMT2N0IDEwLCAyMDI1OAMiEgoHI0VCN0QzRhIHIzAwMDAwMDAB) |
+| **Canada** | 🇨🇦 | `CA` | Weekly Top Music Videos | **#5** | `2025-10-16` | 🎖️ Top 5 Tier (#5) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATUiBUpJU09PIgRaQVlOGjcKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgZDYW5hZGEaDE9jdCAxNiwgMjAyNTgDIhIKByMwMDAwMDASByM2RUM5ODIwAQ) |
+| **Germany** | 🇩🇪 | `DE` | Daily Top Music Videos | **#5** | `2025-10-11` | 🎖️ Top 5 Tier (#5) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATUiBUpJU09PIgRaQVlOGjcKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSB0dlcm1hbnkaDE9jdCAxMSwgMjAyNTgDIhIKByNGRkJCNTQSByMwMDAwMDAwAQ) |
+| **United Kingdom** | 🇬🇧 | `GB` | Daily Top Music Videos | **#6** | `2025-10-11` | ⭐ Top 10 Entry (#6) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=Iq0BCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATYiBUpJU09PIgRaQVlOGj4KHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSDlVuaXRlZCBLaW5nZG9tGgxPY3QgMTEsIDIwMjU4AyISCgcjQjIyMjIyEgcjMDAwMDAwMAE) |
+| **United States** | 🇺🇸 | `US` | Daily Top Music Videos | **#6** | `2025-10-11` | ⭐ Top 10 Entry (#6) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqwBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATYiBUpJU09PIgRaQVlOGj0KHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSDVVuaXRlZCBTdGF0ZXMaDE9jdCAxMSwgMjAyNTgDIhIKByNGODQ0NDQSByMwMDAwMDAwAQ) |
+| **United Kingdom** | 🇬🇧 | `GB` | Weekly Top Music Videos | **#7** | `2025-10-16` | ⭐ Top 10 Entry (#7) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=Iq4BCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATciBUpJU09PIgRaQVlOGj8KHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0Eg5Vbml0ZWQgS2luZ2RvbRoMT2N0IDE2LCAyMDI1OAMiEgoHIzAwMDAwMBIHI0IyMjIyMjAB) |
+| **United States** | 🇺🇸 | `US` | Weekly Top Music Videos | **#8** | `2025-10-16` | ⭐ Top 10 Entry (#8) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=Iq0BCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATgiBUpJU09PIgRaQVlOGj4KHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0Eg1Vbml0ZWQgU3RhdGVzGgxPY3QgMTYsIDIwMjU4AyISCgcjMDAwMDAwEgcjRkY1NDU0MAE) |
+| **France** | 🇫🇷 | `FR` | Daily Top Music Videos | **#9** | `2025-10-10` | ⭐ Top 10 Entry (#9) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqUBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATkiBUpJU09PIgRaQVlOGjYKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSBkZyYW5jZRoMT2N0IDEwLCAyMDI1OAMiEgoHI0RGMkE4QxIHIzAwMDAwMDAB) |
+| **Germany** | 🇩🇪 | `DE` | Weekly Top Music Videos | **#13** | `2025-10-16` | 🔥 Top 20 Entry (#13) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqgBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjEzIgVKSVNPTyIEWkFZTho4Ch1XZWVrbHkgVG9wIE11c2ljIFZpZGVvcyBDaGFydBIHR2VybWFueRoMT2N0IDE2LCAyMDI1OAMiEgoHIzAwMDAwMBIHI0ZGQkI1NDAB) |
 
 ---
 
-## 🌍 3. Global Country Chart Matrix by Surface (0 Total Placements across 0 Countries)
+## 🌍 3. Global Country Chart Matrix by Surface (36 Total Placements across 12 Countries)
 
-### 3A. Daily Top Music Videos Chart (0 Placements across 0 Countries)
+### 3A. Daily Top Music Videos Chart (24 Placements across 12 Countries)
 
 > **Chart Surface:** `Daily Top Music Videos` (`CHART_TYPE_VIDEOS` with `CHART_PERIOD_TYPE_DAILY`)  
 > **Cycle Coverage:** `2026-10-31 (Finalized 24h YouTube music chart cycle; ~24-48h calculation lag)`  
@@ -50,17 +77,57 @@ Curated showcase of peak chart positions, key international markets, and nationa
 
 | Country | Flag | Code | Rank Position | Prev Pos | Chart Date | Peak Classification | Official Share Card |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- | :---: |
-| *No Daily Music Video placements found in queried territories* | - | - | - | - | - | - | - |
+| **South Korea** | 🇰🇷 | `KR` | **#2** | #4 | `2025-10-11` | 🥈 Top 2 Tier | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqoBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATIiBUpJU09PIgRaQVlOGjsKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSC1NvdXRoIEtvcmVhGgxPY3QgMTEsIDIwMjU4AyISCgcjNUNBNkE2EgcjMDAwMDAwMAE) |
+| **Global / Worldwide** | 🌐 | `GLOBAL` | **#2** | #1 | `2025-10-11` | 🥈 Top 2 Tier | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqUBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATIiBUpJU09PIgRaQVlOGjYKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSBkdsb2JhbBoMT2N0IDExLCAyMDI1OAMiEgoHIzZGNkRFORIHIzAwMDAwMDAB) |
+| **Indonesia** | 🇮🇩 | `ID` | **#3** | #3 | `2025-10-11` | 🥉 Top 3 Tier | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqgBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATMiBUpJU09PIgRaQVlOGjkKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSCUluZG9uZXNpYRoMT2N0IDExLCAyMDI1OAMiEgoHI2IwMzA2MBIHIzAwMDAwMDAB) |
+| **Australia** | 🇦🇺 | `AU` | **#4** | #5 | `2025-10-11` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqgBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjkKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSCUF1c3RyYWxpYRoMT2N0IDExLCAyMDI1OAMiEgoHI0VCN0QzRhIHIzAwMDAwMDAB) |
+| **Canada** | 🇨🇦 | `CA` | **#4** | #3 | `2025-10-11` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqUBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjYKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSBkNhbmFkYRoMT2N0IDExLCAyMDI1OAMiEgoHIzZFQzk4MhIHIzAwMDAwMDAB) |
+| **Germany** | 🇩🇪 | `DE` | **#5** | #4 | `2025-10-11` | 🎖️ Top 5 Tier (#5) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATUiBUpJU09PIgRaQVlOGjcKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSB0dlcm1hbnkaDE9jdCAxMSwgMjAyNTgDIhIKByNGRkJCNTQSByMwMDAwMDAwAQ) |
+| **United States** | 🇺🇸 | `US` | **#6** | #4 | `2025-10-11` | ⭐ Top 10 Entry (#6) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqwBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATYiBUpJU09PIgRaQVlOGj0KHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSDVVuaXRlZCBTdGF0ZXMaDE9jdCAxMSwgMjAyNTgDIhIKByNGODQ0NDQSByMwMDAwMDAwAQ) |
+| **United Kingdom** | 🇬🇧 | `GB` | **#6** | #4 | `2025-10-11` | ⭐ Top 10 Entry (#6) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=Iq0BCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATYiBUpJU09PIgRaQVlOGj4KHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSDlVuaXRlZCBLaW5nZG9tGgxPY3QgMTEsIDIwMjU4AyISCgcjQjIyMjIyEgcjMDAwMDAwMAE) |
+| **France** | 🇫🇷 | `FR` | **#18** | #9 | `2025-10-11` | 🔥 Top 20 Entry (#18) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjE4IgVKSVNPTyIEWkFZTho2ChxEYWlseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgZGcmFuY2UaDE9jdCAxMSwgMjAyNTgDIhIKByNERjJBOEMSByMwMDAwMDAwAQ) |
+| **Japan** | 🇯🇵 | `JP` | **#34** | #41 | `2025-10-11` | 📈 Top 50 Entry (#34) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqUBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjM0IgVKSVNPTyIEWkFZTho1ChxEYWlseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgVKYXBhbhoMT2N0IDExLCAyMDI1OAMiEgoHI0IwQjBCMBIHIzAwMDAwMDAB) |
+| **Brazil** | 🇧🇷 | `BR` | **#59** | #18 | `2025-10-11` | Rank #59 | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjU5IgVKSVNPTyIEWkFZTho2ChxEYWlseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgZCcmF6aWwaDE9jdCAxMSwgMjAyNTgDIhIKByM1NTdBRkYSByMwMDAwMDAwAQ) |
+| **Mexico** | 🇲🇽 | `MX` | **#59** | #22 | `2025-10-11` | Rank #59 | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjU5IgVKSVNPTyIEWkFZTho2ChxEYWlseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgZNZXhpY28aDE9jdCAxMSwgMjAyNTgDIhIKByM1NjkxMUISByMwMDAwMDAwAQ) |
+| **Global / Worldwide** | 🌐 | `GLOBAL` | **#1** | — | `2025-10-10` | 🥇 #1 Champion | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqUBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATEiBUpJU09PIgRaQVlOGjYKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSBkdsb2JhbBoMT2N0IDEwLCAyMDI1OAMiEgoHIzZGNkRFORIHIzAwMDAwMDAB) |
+| **Canada** | 🇨🇦 | `CA` | **#3** | — | `2025-10-10` | 🥉 Top 3 Tier | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqUBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATMiBUpJU09PIgRaQVlOGjYKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSBkNhbmFkYRoMT2N0IDEwLCAyMDI1OAMiEgoHIzZFQzk4MhIHIzAwMDAwMDAB) |
+| **Indonesia** | 🇮🇩 | `ID` | **#3** | — | `2025-10-10` | 🥉 Top 3 Tier | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqgBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATMiBUpJU09PIgRaQVlOGjkKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSCUluZG9uZXNpYRoMT2N0IDEwLCAyMDI1OAMiEgoHI2IwMzA2MBIHIzAwMDAwMDAB) |
+| **United States** | 🇺🇸 | `US` | **#4** | — | `2025-10-10` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqwBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGj0KHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSDVVuaXRlZCBTdGF0ZXMaDE9jdCAxMCwgMjAyNTgDIhIKByNGODQ0NDQSByMwMDAwMDAwAQ) |
+| **United Kingdom** | 🇬🇧 | `GB` | **#4** | — | `2025-10-10` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=Iq0BCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGj4KHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSDlVuaXRlZCBLaW5nZG9tGgxPY3QgMTAsIDIwMjU4AyISCgcjQjIyMjIyEgcjMDAwMDAwMAE) |
+| **South Korea** | 🇰🇷 | `KR` | **#4** | — | `2025-10-10` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqoBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjsKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSC1NvdXRoIEtvcmVhGgxPY3QgMTAsIDIwMjU4AyISCgcjNUNBNkE2EgcjMDAwMDAwMAE) |
+| **Germany** | 🇩🇪 | `DE` | **#4** | — | `2025-10-10` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjcKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSB0dlcm1hbnkaDE9jdCAxMCwgMjAyNTgDIhIKByNGRkJCNTQSByMwMDAwMDAwAQ) |
+| **Australia** | 🇦🇺 | `AU` | **#5** | — | `2025-10-10` | 🎖️ Top 5 Tier (#5) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqgBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATUiBUpJU09PIgRaQVlOGjkKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSCUF1c3RyYWxpYRoMT2N0IDEwLCAyMDI1OAMiEgoHI0VCN0QzRhIHIzAwMDAwMDAB) |
+| **France** | 🇫🇷 | `FR` | **#9** | — | `2025-10-10` | ⭐ Top 10 Entry (#9) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqUBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATkiBUpJU09PIgRaQVlOGjYKHERhaWx5IFRvcCBNdXNpYyBWaWRlb3MgQ2hhcnQSBkZyYW5jZRoMT2N0IDEwLCAyMDI1OAMiEgoHI0RGMkE4QxIHIzAwMDAwMDAB) |
+| **Brazil** | 🇧🇷 | `BR` | **#18** | — | `2025-10-10` | 🔥 Top 20 Entry (#18) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjE4IgVKSVNPTyIEWkFZTho2ChxEYWlseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgZCcmF6aWwaDE9jdCAxMCwgMjAyNTgDIhIKByM1NTdBRkYSByMwMDAwMDAwAQ) |
+| **Mexico** | 🇲🇽 | `MX` | **#22** | — | `2025-10-10` | 📈 Top 50 Entry (#22) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjIyIgVKSVNPTyIEWkFZTho2ChxEYWlseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgZNZXhpY28aDE9jdCAxMCwgMjAyNTgDIhIKByM1NjkxMUISByMwMDAwMDAwAQ) |
+| **Japan** | 🇯🇵 | `JP` | **#41** | — | `2025-10-10` | 📈 Top 50 Entry (#41) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqUBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjQxIgVKSVNPTyIEWkFZTho1ChxEYWlseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgVKYXBhbhoMT2N0IDEwLCAyMDI1OAMiEgoHI0IwQjBCMBIHIzAwMDAwMDAB) |
 
 ### 3B. Overall YouTube Trending (0 Placements across 0 Countries)
 
 > **Chart Surface:** `Overall YouTube Trending` (`CHART_TYPE_TRENDING_VIDEOS`)  
-> **Snapshot Timestamp:** `2026-11-01 17:28:06 PST`  
+> **Snapshot Timestamp:** `2026-11-02 03:00:27 PST`  
 > **Calculation Basis:** Live real-time cross-category velocity feed reflecting organic viewer growth in each country.
 
 | Country | Flag | Code | Rank Position | Prev Pos | Snapshot State | Peak Classification | Official Share Card |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- | :---: |
-| *Trending feed bypassed or no active placements found (Live Snapshot Evaluated (No active trending positions in queried territories at 2026-11-01 17:28:06 PST))* | - | - | - | - | - | - | - |
+| *Trending feed bypassed or no active placements found (Live Snapshot Evaluated (No active trending positions in queried territories at 2026-11-02 03:00:27 PST))* | - | - | - | - | - | - | - |
+
+### 3C. Additional Chart Surfaces (12 Placements)
+
+| Country | Flag | Code | Surface | Rank Position | Chart Date | Peak Classification | Official Share Card |
+| :--- | :---: | :---: | :--- | :---: | :---: | :--- | :---: |
+| **Global / Worldwide** | 🌐 | `GLOBAL` | Weekly Top Music Videos | **#2** | `2025-10-16` | 🥈 Top 2 Tier | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATIiBUpJU09PIgRaQVlOGjcKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgZHbG9iYWwaDE9jdCAxNiwgMjAyNTgDIhIKByMwMDAwMDASByM2RjZERTkwAQ) |
+| **South Korea** | 🇰🇷 | `KR` | Weekly Top Music Videos | **#4** | `2025-10-16` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqsBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjwKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgtTb3V0aCBLb3JlYRoMT2N0IDE2LCAyMDI1OAMiEgoHIzAwMDAwMBIHIzVDQTZBNjAB) |
+| **Australia** | 🇦🇺 | `AU` | Weekly Top Music Videos | **#4** | `2025-10-16` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqkBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjoKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EglBdXN0cmFsaWEaDE9jdCAxNiwgMjAyNTgDIhIKByMwMDAwMDASByNFQjdEM0YwAQ) |
+| **Indonesia** | 🇮🇩 | `ID` | Weekly Top Music Videos | **#4** | `2025-10-16` | 🎖️ Top 5 Tier (#4) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqkBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjoKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EglJbmRvbmVzaWEaDE9jdCAxNiwgMjAyNTgDIhIKByMwMDAwMDASByNCQzQyNzAwAQ) |
+| **Canada** | 🇨🇦 | `CA` | Weekly Top Music Videos | **#5** | `2025-10-16` | 🎖️ Top 5 Tier (#5) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATUiBUpJU09PIgRaQVlOGjcKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgZDYW5hZGEaDE9jdCAxNiwgMjAyNTgDIhIKByMwMDAwMDASByM2RUM5ODIwAQ) |
+| **United Kingdom** | 🇬🇧 | `GB` | Weekly Top Music Videos | **#7** | `2025-10-16` | ⭐ Top 10 Entry (#7) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=Iq4BCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATciBUpJU09PIgRaQVlOGj8KHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0Eg5Vbml0ZWQgS2luZ2RvbRoMT2N0IDE2LCAyMDI1OAMiEgoHIzAwMDAwMBIHI0IyMjIyMjAB) |
+| **United States** | 🇺🇸 | `US` | Weekly Top Music Videos | **#8** | `2025-10-16` | ⭐ Top 10 Entry (#8) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=Iq0BCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATgiBUpJU09PIgRaQVlOGj4KHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0Eg1Vbml0ZWQgU3RhdGVzGgxPY3QgMTYsIDIwMjU4AyISCgcjMDAwMDAwEgcjRkY1NDU0MAE) |
+| **Germany** | 🇩🇪 | `DE` | Weekly Top Music Videos | **#13** | `2025-10-16` | 🔥 Top 20 Entry (#13) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqgBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjEzIgVKSVNPTyIEWkFZTho4Ch1XZWVrbHkgVG9wIE11c2ljIFZpZGVvcyBDaGFydBIHR2VybWFueRoMT2N0IDE2LCAyMDI1OAMiEgoHIzAwMDAwMBIHI0ZGQkI1NDAB) |
+| **France** | 🇫🇷 | `FR` | Weekly Top Music Videos | **#30** | `2025-10-16` | 📈 Top 50 Entry (#30) | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqcBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjMwIgVKSVNPTyIEWkFZTho3Ch1XZWVrbHkgVG9wIE11c2ljIFZpZGVvcyBDaGFydBIGRnJhbmNlGgxPY3QgMTYsIDIwMjU4AyISCgcjMDAwMDAwEgcjREYyQThDMAE) |
+| **Japan** | 🇯🇵 | `JP` | Weekly Top Music Videos | **#61** | `2025-10-16` | Rank #61 | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjYxIgVKSVNPTyIEWkFZTho2Ch1XZWVrbHkgVG9wIE11c2ljIFZpZGVvcyBDaGFydBIFSmFwYW4aDE9jdCAxNiwgMjAyNTgDIhIKByMwMDAwMDASByNCMEIwQjAwAQ) |
+| **Mexico** | 🇲🇽 | `MX` | Weekly Top Music Videos | **#67** | `2025-10-16` | Rank #67 | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqcBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjY3IgVKSVNPTyIEWkFZTho3Ch1XZWVrbHkgVG9wIE11c2ljIFZpZGVvcyBDaGFydBIGTWV4aWNvGgxPY3QgMTYsIDIwMjU4AyISCgcjMDAwMDAwEgcjNTY5MTFCMAE) |
+| **Brazil** | 🇧🇷 | `BR` | Weekly Top Music Videos | **#69** | `2025-10-16` | Rank #69 | [Open Card](https://charts.youtube.com/image/analytics/charts?r=IqcBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjY5IgVKSVNPTyIEWkFZTho3Ch1XZWVrbHkgVG9wIE11c2ljIFZpZGVvcyBDaGFydBIGQnJhemlsGgxPY3QgMTYsIDIwMjU4AyISCgcjMDAwMDAwEgcjNTU3QUZGMAE) |
 
 ---
 
@@ -68,16 +135,16 @@ Curated showcase of peak chart positions, key international markets, and nationa
 
 | Rank | Author | Likes | Comment Snippet |
 | :---: | :--- | :---: | :--- |
-| **#1** | `@akucantik891` | **0** | "Up..." |
-| **#2** | `@Jiim1123` | **1** | "Here for Jisoo everyday..." |
-| **#3** | `@hanaamortage` | **0** | "300k..." |
-| **#4** | `@zel.0-1` | **0** | "Fall in love..." |
-| **#5** | `@zel.0-1` | **0** | "Click ve addicted için st kasın lütfen..." |
-| **#6** | `@blinkeu3` | **1** | "Anyone after Addicted or Click mv? 👇🏻..." |
-| **#7** | `@angellatorre3582` | **0** | "Aaahhhh jisoo..." |
-| **#8** | `@angellatorre3582` | **0** | "Queen jisoo..." |
-| **#9** | `@angellatorre3582` | **0** | "Lovely jisoo..." |
-| **#10** | `@angellatorre3582` | **0** | "Cutes..." |
+| **#1** | `@YouTube` | **206,000** | "blinks and directioners how we feeling??..." |
+| **#2** | `@saturdayhaz` | **82,000** | "Raise your hand if you didn’t expect this duo but now can’t stop replaying it..." |
+| **#3** | `@vanjerrss` | **36,000** | "so proud of jisoo's improvements on her english and this is an absolute BOP!..." |
+| **#4** | `@beautrlbea` | **28,000** | "The visuals? The vocals? The emotions? The way they harmonized?  They're literally SERVING..." |
+| **#5** | `@mely-033` | **26,000** | "they knew to drop this on October 10th cause it’s a 10/10..." |
+| **#6** | `@Iamstayblink` | **23,000** | "This one Direction and BLACKPINK duo I never imagined is happening..." |
+| **#7** | `@reshaaaij` | **21,000** | "Jisoo and Zayn prove that introverts can create the loudest art..." |
+| **#8** | `@cxerxnx` | **16,000** | "The fact that there were no hints or whatsoever to a collab between them and dropping it w..." |
+| **#9** | `@jisoolov_eee` | **15,000** | "Jisoo and Zayn didn’t just make a song, they created a feeling...." |
+| **#10** | `@souadloves1D` | **15,000** | "2012 became a directioner 2016 became a blink Never expected these worlds would collide be..." |
 
 ---
 
@@ -87,7 +154,18 @@ These are official high-resolution (1080x1920) vertical JPEG image assets genera
 
 | Country | Flag | Code | Chart Surface | Rank Position | Official 1080x1920 Share Card Direct Link |
 | :--- | :---: | :---: | :--- | :---: | :--- |
-| *No share card assets registered* | - | - | - | - | - |
+| **Global / Worldwide** | 🌐 | `GLOBAL` | Weekly Top Music Videos | **#2** | [Open 1080x1920 Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATIiBUpJU09PIgRaQVlOGjcKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgZHbG9iYWwaDE9jdCAxNiwgMjAyNTgDIhIKByMwMDAwMDASByM2RjZERTkwAQ) |
+| **South Korea** | 🇰🇷 | `KR` | Weekly Top Music Videos | **#4** | [Open 1080x1920 Card](https://charts.youtube.com/image/analytics/charts?r=IqsBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjwKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgtTb3V0aCBLb3JlYRoMT2N0IDE2LCAyMDI1OAMiEgoHIzAwMDAwMBIHIzVDQTZBNjAB) |
+| **Australia** | 🇦🇺 | `AU` | Weekly Top Music Videos | **#4** | [Open 1080x1920 Card](https://charts.youtube.com/image/analytics/charts?r=IqkBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjoKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EglBdXN0cmFsaWEaDE9jdCAxNiwgMjAyNTgDIhIKByMwMDAwMDASByNFQjdEM0YwAQ) |
+| **Indonesia** | 🇮🇩 | `ID` | Weekly Top Music Videos | **#4** | [Open 1080x1920 Card](https://charts.youtube.com/image/analytics/charts?r=IqkBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATQiBUpJU09PIgRaQVlOGjoKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EglJbmRvbmVzaWEaDE9jdCAxNiwgMjAyNTgDIhIKByMwMDAwMDASByNCQzQyNzAwAQ) |
+| **Canada** | 🇨🇦 | `CA` | Weekly Top Music Videos | **#5** | [Open 1080x1920 Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATUiBUpJU09PIgRaQVlOGjcKHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0EgZDYW5hZGEaDE9jdCAxNiwgMjAyNTgDIhIKByMwMDAwMDASByM2RUM5ODIwAQ) |
+| **United Kingdom** | 🇬🇧 | `GB` | Weekly Top Music Videos | **#7** | [Open 1080x1920 Card](https://charts.youtube.com/image/analytics/charts?r=Iq4BCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATciBUpJU09PIgRaQVlOGj8KHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0Eg5Vbml0ZWQgS2luZ2RvbRoMT2N0IDE2LCAyMDI1OAMiEgoHIzAwMDAwMBIHI0IyMjIyMjAB) |
+| **United States** | 🇺🇸 | `US` | Weekly Top Music Videos | **#8** | [Open 1080x1920 Card](https://charts.youtube.com/image/analytics/charts?r=Iq0BCAISUwoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaATgiBUpJU09PIgRaQVlOGj4KHVdlZWtseSBUb3AgTXVzaWMgVmlkZW9zIENoYXJ0Eg1Vbml0ZWQgU3RhdGVzGgxPY3QgMTYsIDIwMjU4AyISCgcjMDAwMDAwEgcjRkY1NDU0MAE) |
+| **Germany** | 🇩🇪 | `DE` | Weekly Top Music Videos | **#13** | [Open 1080x1920 Card](https://charts.youtube.com/image/analytics/charts?r=IqgBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjEzIgVKSVNPTyIEWkFZTho4Ch1XZWVrbHkgVG9wIE11c2ljIFZpZGVvcyBDaGFydBIHR2VybWFueRoMT2N0IDE2LCAyMDI1OAMiEgoHIzAwMDAwMBIHI0ZGQkI1NDAB) |
+| **France** | 🇫🇷 | `FR` | Weekly Top Music Videos | **#30** | [Open 1080x1920 Card](https://charts.youtube.com/image/analytics/charts?r=IqcBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjMwIgVKSVNPTyIEWkFZTho3Ch1XZWVrbHkgVG9wIE11c2ljIFZpZGVvcyBDaGFydBIGRnJhbmNlGgxPY3QgMTYsIDIwMjU4AyISCgcjMDAwMDAwEgcjREYyQThDMAE) |
+| **Japan** | 🇯🇵 | `JP` | Weekly Top Music Videos | **#61** | [Open 1080x1920 Card](https://charts.youtube.com/image/analytics/charts?r=IqYBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjYxIgVKSVNPTyIEWkFZTho2Ch1XZWVrbHkgVG9wIE11c2ljIFZpZGVvcyBDaGFydBIFSmFwYW4aDE9jdCAxNiwgMjAyNTgDIhIKByMwMDAwMDASByNCMEIwQjAwAQ) |
+| **Mexico** | 🇲🇽 | `MX` | Weekly Top Music Videos | **#67** | [Open 1080x1920 Card](https://charts.youtube.com/image/analytics/charts?r=IqcBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjY3IgVKSVNPTyIEWkFZTho3Ch1XZWVrbHkgVG9wIE11c2ljIFZpZGVvcyBDaGFydBIGTWV4aWNvGgxPY3QgMTYsIDIwMjU4AyISCgcjMDAwMDAwEgcjNTY5MTFCMAE) |
+| **Brazil** | 🇧🇷 | `BR` | Weekly Top Music Videos | **#69** | [Open 1080x1920 Card](https://charts.youtube.com/image/analytics/charts?r=IqcBCAISVAoLRVlFUyBDTE9TRUQSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvRU4xdE1lWFFpaTAvbWF4cmVzZGVmYXVsdC5qcGcaAjY5IgVKSVNPTyIEWkFZTho3Ch1XZWVrbHkgVG9wIE11c2ljIFZpZGVvcyBDaGFydBIGQnJhemlsGgxPY3QgMTYsIDIwMjU4AyISCgcjMDAwMDAwEgcjNTU3QUZGMAE) |
 
 ---
 
@@ -95,10 +173,10 @@ These are official high-resolution (1080x1920) vertical JPEG image assets genera
 
 The dataset is compiled into discrete, isolated, and composable JSON/CSV files:
 
-1. **[`manifest.json`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/blackpink-twitter/data/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/manifest.json)**: Unified composable descriptor linking all data layers.
-2. **[`video_metadata.json`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/blackpink-twitter/data/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/video_metadata.json)** & **[`video_metadata.csv`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/blackpink-twitter/data/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/video_metadata.csv)**: Static video identity, tags, lyrics, resolution, and format specs.
-3. **[`video_telemetry_snapshot.json`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/blackpink-twitter/data/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/video_telemetry_snapshot.json)** & **[`video_telemetry_snapshot.csv`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/blackpink-twitter/data/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/video_telemetry_snapshot.csv)**: Live view velocity, like velocity, ratios, and virality tier.
-4. **[`video_telemetry_history.csv`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/blackpink-twitter/data/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/video_telemetry_history.csv)**: Append-only longitudinal telemetry history ledger.
-5. **[`country_chart_rankings.json`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/blackpink-twitter/data/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/country_chart_rankings.json)** & **[`country_chart_rankings.csv`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/blackpink-twitter/data/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/country_chart_rankings.csv)**: Regional chart rankings across international territories with explicit `chart_date`.
-6. **[`share_cards_registry.json`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/blackpink-twitter/data/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/share_cards_registry.json)** & **[`share_cards_registry.csv`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/blackpink-twitter/data/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/share_cards_registry.csv)**: Official 1080x1920 9:16 high-res vertical share card asset URLs.
-7. **[`top_comments_ranked.json`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/blackpink-twitter/data/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/top_comments_ranked.json)** & **[`top_comments_ranked.csv`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/blackpink-twitter/data/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/top_comments_ranked.csv)**: Upvoted community comments.
+1. **[`manifest.json`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/youtube-dossier-engine/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/manifest.json)**: Unified composable descriptor linking all data layers.
+2. **[`video_metadata.json`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/youtube-dossier-engine/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/video_metadata.json)** & **[`video_metadata.csv`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/youtube-dossier-engine/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/video_metadata.csv)**: Static video identity, tags, lyrics, resolution, and format specs.
+3. **[`video_telemetry_snapshot.json`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/youtube-dossier-engine/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/video_telemetry_snapshot.json)** & **[`video_telemetry_snapshot.csv`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/youtube-dossier-engine/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/video_telemetry_snapshot.csv)**: Live view velocity, like velocity, ratios, and virality tier.
+4. **[`video_telemetry_history.csv`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/youtube-dossier-engine/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/video_telemetry_history.csv)**: Append-only longitudinal telemetry history ledger.
+5. **[`country_chart_rankings.json`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/youtube-dossier-engine/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/country_chart_rankings.json)** & **[`country_chart_rankings.csv`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/youtube-dossier-engine/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/country_chart_rankings.csv)**: Regional chart rankings across international territories with explicit `chart_date`.
+6. **[`share_cards_registry.json`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/youtube-dossier-engine/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/share_cards_registry.json)** & **[`share_cards_registry.csv`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/youtube-dossier-engine/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/share_cards_registry.csv)**: Official 1080x1920 9:16 high-res vertical share card asset URLs.
+7. **[`top_comments_ranked.json`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/youtube-dossier-engine/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/top_comments_ranked.json)** & **[`top_comments_ranked.csv`](file:///Users/bibbler/Downloads/_Projects/Antigravity/Scraper_projects/youtube-dossier-engine/datasets/youtube/jisoo_x_zayn_eyes_closed_official_mv_EN1tMeXQii0/top_comments_ranked.csv)**: Upvoted community comments.

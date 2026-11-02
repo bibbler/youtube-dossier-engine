@@ -3,13 +3,17 @@
   "video_id": "Lufa9QAFFeY",
   "entity_name": "ROS\u00c9 - new trick (OFFICIAL MUSIC VIDEO)",
   "target_date_scoped": "latest",
-  "generated_at_pst": "2026-11-01 16:45:49 PST",
+  "generated_at_pst": "2026-11-02 03:01:56 PST",
   "date_metrics": {
     "scope_mode": "Latest Active Daily Cycle + Live Trending Snapshot (Default)",
     "daily_chart_cycle": "2026-10-31 (Finalized 24h YouTube music chart cycle; ~24-48h calculation lag)",
-    "trending_feed_state": "Live Snapshot Evaluated (No active trending positions in queried territories at 2026-11-01 16:45:49 PST)",
-    "dataset_date_coverage": "Single Snapshot (2026-11-01 16:45:49 PST)",
-    "all_daily_dates": [],
+    "trending_feed_state": "Live Snapshot Evaluated (No active trending positions in queried territories at 2026-11-02 03:01:56 PST)",
+    "dataset_date_coverage": "Daily Charts: 2026-09-17 to 2026-09-24 (3 cycles)",
+    "all_daily_dates": [
+      "2026-09-17",
+      "2026-09-18",
+      "2026-09-24"
+    ],
     "has_live_trending": false
   },
   "composable_layers": {
@@ -26,9 +30,9 @@
     "charts": {
       "file_json": "country_chart_rankings.json",
       "file_csv": "country_chart_rankings.csv",
-      "records_count": 0,
+      "records_count": 31,
       "description": "Multi-country chart and trending rankings across recorded dates",
-      "unique_countries_count": 0
+      "unique_countries_count": 14
     },
     "audience": {
       "file_json": "top_comments_ranked.json",
@@ -39,15 +43,20 @@
     "share_cards": {
       "file_json": "share_cards_registry.json",
       "file_csv": "share_cards_registry.csv",
-      "records_count": 0,
+      "records_count": 14,
       "description": "Official YouTube Charts 1080x1920 9:16 high-res vertical share card image asset URLs"
     }
   },
   "summary_metrics": {
-    "view_count": 55703694,
-    "like_count": 1165644,
-    "comment_count": 20,
-    "number_of_countries_charting": 0,
-    "number_one_countries": []
+    "view_count": 55736951,
+    "like_count": 1166018,
+    "comment_count": 86000,
+    "number_of_countries_charting": 14,
+    "number_one_countries": [
+      "Australia",
+      "Global / Worldwide",
+      "Philippines",
+      "South Korea"
+    ]
   }
 }

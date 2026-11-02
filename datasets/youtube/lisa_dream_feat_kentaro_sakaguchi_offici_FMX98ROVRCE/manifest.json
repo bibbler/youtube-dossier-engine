@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.2.0",
+  "video_id": "FMX98ROVRCE",
+  "entity_name": "LISA - DREAM feat. Kentaro Sakaguchi (Official Short Film MV)",
+  "target_date_scoped": "latest",
+  "generated_at_pst": "2026-11-02 03:00:00 PST",
+  "date_metrics": {
+    "scope_mode": "Latest Active Daily Cycle + Live Trending Snapshot (Default)",
+    "daily_chart_cycle": "2026-10-31 (Finalized 24h YouTube music chart cycle; ~24-48h calculation lag)",
+    "trending_feed_state": "Live Snapshot Evaluated (No active trending positions in queried territories at 2026-11-02 03:00:00 PST)",
+    "dataset_date_coverage": "Daily Charts: 2025-08-14 to 2025-08-21 (3 cycles)",
+    "all_daily_dates": [
+      "2025-08-14",
+      "2025-08-15",
+      "2025-08-21"
+    ],
+    "has_live_trending": false
+  },
+  "composable_layers": {
+    "metadata": {
+      "file_json": "video_metadata.json",
+      "file_csv": "video_metadata.csv",
+      "description": "Static identity, duration, channel info, lyrics, tags"
+    },
+    "telemetry": {
+      "file_json": "video_telemetry_snapshot.json",
+      "file_csv": "video_telemetry_snapshot.csv",
+      "description": "Live views, likes, comments, velocity metrics and virality tier"
+    },
+    "charts": {
+      "file_json": "country_chart_rankings.json",
+      "file_csv": "country_chart_rankings.csv",
+      "records_count": 32,
+      "description": "Multi-country chart and trending rankings across recorded dates",
+      "unique_countries_count": 12
+    },
+    "audience": {
+      "file_json": "top_comments_ranked.json",
+      "file_csv": "top_comments_ranked.csv",
+      "records_count": 20,
+      "description": "Top ranked community comments and reaction sentiment"
+    },
+    "share_cards": {
+      "file_json": "share_cards_registry.json",
+      "file_csv": "share_cards_registry.csv",
+      "records_count": 12,
+      "description": "Official YouTube Charts 1080x1920 9:16 high-res vertical share card image asset URLs"
+    }
+  },
+  "summary_metrics": {
+    "view_count": 71900673,
+    "like_count": 1912990,
+    "comment_count": 92000,
+    "number_of_countries_charting": 12,
+    "number_one_countries": [
+      "Australia",
+      "Canada"
+    ]
+  }
+}
