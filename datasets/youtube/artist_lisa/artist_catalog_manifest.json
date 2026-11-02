@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "artist_name": "LISA",
+  "channel_name": "LISAOfficialVEVO",
+  "channel_id": "UCg3ymxYCmURj5BFtbgMt-Og",
+  "channel_url": "https://www.youtube.com/@LISAOfficialVEVO",
+  "subscribers": 0,
+  "generated_at_pst": "2026-11-01 02:21:53 PST",
+  "target_date_scoped": "latest",
+  "date_metrics": {
+    "daily_chart_cycle": "2026-10-30",
+    "trending_feed_state": "Live Snapshot (2026-11-01 02:21:53 PST)",
+    "historical_cycles_collected": [
+      "2026-10-30"
+    ]
+  },
+  "summary": {
+    "unique_tracks_charting": 4,
+    "total_placements_captured": 13,
+    "territories_queried_count": 4,
+    "number_one_tracks": []
+  },
+  "tracks": [
+    {
+      "video_id": "-5ZXrO_lYSA",
+      "title": "Tarantino (Official Music Video)",
+      "channel_name": "LISAOfficialVEVO",
+      "best_rank": 2,
+      "best_rank_status": "\ud83e\udd48 Top 2 Tier",
+      "total_placements": 6,
+      "unique_countries_count": 4,
+      "daily_music_placements": 2,
+      "trending_placements": 4,
+      "share_card_url": "https://charts.youtube.com/image/analytics/charts?r=IqQBCAISYQogVGFyYW50aW5vIChPZmZpY2lhbCBNdXNpYyBWaWRlbykSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvLTVaWHJPX2xZU0EvbWF4cmVzZGVmYXVsdC5qcGcaATQiBExJU0EaJwoUVHJlbmRpbmcgTXVzaWMgQ2hhcnQSDVVuaXRlZCBTdGF0ZXM4BCISCgcjRkZDN0M3EgcjRjg0NDQ0MAE"
+    },
+    {
+      "video_id": "rvMwVzaxjYU",
+      "title": "Sweat (Lyric Video)",
+      "channel_name": "LISAOfficialVEVO",
+      "best_rank": 11,
+      "best_rank_status": "\ud83d\udd25 Top 20 Entry (#11)",
+      "total_placements": 2,
+      "unique_countries_count": 1,
+      "daily_music_placements": 1,
+      "trending_placements": 1,
+      "share_card_url": "https://charts.youtube.com/image/analytics/charts?r=IqkBCAISVQoTU3dlYXQgKEx5cmljIFZpZGVvKRI0aHR0cHM6Ly9pLnl0aW1nLmNvbS92aS9ydk13VnpheGpZVS9tYXhyZXNkZWZhdWx0LmpwZxoCNTAiBExJU0EaOAocRGFpbHkgVG9wIE11c2ljIFZpZGVvcyBDaGFydBIIVGhhaWxhbmQaDE9jdCAzMCwgMjAyNjgDIhIKByNmZmIzMDASByMwMDAwMDAwAQ"
+    },
+    {
+      "video_id": "HeRaW85VaLY",
+      "title": "Cut U Off (Lyric Video)",
+      "channel_name": "LISAOfficialVEVO",
+      "best_rank": 21,
+      "best_rank_status": "\ud83d\udcc8 Top 50 Entry (#21)",
+      "total_placements": 1,
+      "unique_countries_count": 1,
+      "daily_music_placements": 0,
+      "trending_placements": 1,
+      "share_card_url": "https://charts.youtube.com/image/analytics/charts?r=IpcBCAISWQoXQ3V0IFUgT2ZmIChMeXJpYyBWaWRlbykSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvSGVSYVc4NVZhTFkvbWF4cmVzZGVmYXVsdC5qcGcaAjIxIgRMSVNBGiIKFFRyZW5kaW5nIE11c2ljIENoYXJ0EghUaGFpbGFuZDgEIhIKByNmZmIzMDASByM4NzNiMDAwAQ"
+    },
+    {
+      "video_id": "FyS5dAywkEo",
+      "title": "SaWaDiKa (Official Music Video)",
+      "channel_name": "LISAOfficialVEVO",
+      "best_rank": 61,
+      "best_rank_status": "Rank #61",
+      "total_placements": 4,
+      "unique_countries_count": 4,
+      "daily_music_placements": 4,
+      "trending_placements": 0,
+      "share_card_url": "https://charts.youtube.com/image/analytics/charts?r=IroBCAISYQofU2FXYURpS2EgKE9mZmljaWFsIE11c2ljIFZpZGVvKRI0aHR0cHM6Ly9pLnl0aW1nLmNvbS92aS9GeVM1ZEF5d2tFby9tYXhyZXNkZWZhdWx0LmpwZxoCOTgiBExJU0EaPQocRGFpbHkgVG9wIE11c2ljIFZpZGVvcyBDaGFydBINVW5pdGVkIFN0YXRlcxoMT2N0IDMwLCAyMDI2OAMiEgoHI0Y4NDQ0NBIHIzAwMDAwMDAB"
+    }
+  ]
+}

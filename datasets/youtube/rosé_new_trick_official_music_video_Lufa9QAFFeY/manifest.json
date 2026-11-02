@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.2.0",
+  "video_id": "Lufa9QAFFeY",
+  "entity_name": "ROS\u00c9 - new trick (OFFICIAL MUSIC VIDEO)",
+  "target_date_scoped": "latest",
+  "generated_at_pst": "2026-11-01 16:45:49 PST",
+  "date_metrics": {
+    "scope_mode": "Latest Active Daily Cycle + Live Trending Snapshot (Default)",
+    "daily_chart_cycle": "2026-10-31 (Finalized 24h YouTube music chart cycle; ~24-48h calculation lag)",
+    "trending_feed_state": "Live Snapshot Evaluated (No active trending positions in queried territories at 2026-11-01 16:45:49 PST)",
+    "dataset_date_coverage": "Single Snapshot (2026-11-01 16:45:49 PST)",
+    "all_daily_dates": [],
+    "has_live_trending": false
+  },
+  "composable_layers": {
+    "metadata": {
+      "file_json": "video_metadata.json",
+      "file_csv": "video_metadata.csv",
+      "description": "Static identity, duration, channel info, lyrics, tags"
+    },
+    "telemetry": {
+      "file_json": "video_telemetry_snapshot.json",
+      "file_csv": "video_telemetry_snapshot.csv",
+      "description": "Live views, likes, comments, velocity metrics and virality tier"
+    },
+    "charts": {
+      "file_json": "country_chart_rankings.json",
+      "file_csv": "country_chart_rankings.csv",
+      "records_count": 0,
+      "description": "Multi-country chart and trending rankings across recorded dates",
+      "unique_countries_count": 0
+    },
+    "audience": {
+      "file_json": "top_comments_ranked.json",
+      "file_csv": "top_comments_ranked.csv",
+      "records_count": 20,
+      "description": "Top ranked community comments and reaction sentiment"
+    },
+    "share_cards": {
+      "file_json": "share_cards_registry.json",
+      "file_csv": "share_cards_registry.csv",
+      "records_count": 0,
+      "description": "Official YouTube Charts 1080x1920 9:16 high-res vertical share card image asset URLs"
+    }
+  },
+  "summary_metrics": {
+    "view_count": 55703694,
+    "like_count": 1165644,
+    "comment_count": 20,
+    "number_of_countries_charting": 0,
+    "number_one_countries": []
+  }
+}

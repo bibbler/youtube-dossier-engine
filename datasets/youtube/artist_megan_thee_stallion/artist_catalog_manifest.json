@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "artist_name": "Megan Thee Stallion",
+  "channel_name": "Megan Thee Stallion",
+  "channel_id": "UCKrdjiuS66yXOdEZ_cOD_TA",
+  "channel_url": "https://www.youtube.com/@megantheestallion",
+  "subscribers": 7530000,
+  "generated_at_pst": "2026-11-01 02:22:45 PST",
+  "target_date_scoped": "latest",
+  "date_metrics": {
+    "daily_chart_cycle": "2026-10-30",
+    "trending_feed_state": "Bypassed",
+    "historical_cycles_collected": [
+      "2026-10-30"
+    ]
+  },
+  "summary": {
+    "unique_tracks_charting": 1,
+    "total_placements_captured": 3,
+    "territories_queried_count": 3,
+    "number_one_tracks": [
+      "Megan Thee Stallion - Thin Ice - Tina Tuesday Freestyle"
+    ]
+  },
+  "tracks": [
+    {
+      "video_id": "9ofUM-_3uQ4",
+      "title": "Megan Thee Stallion - Thin Ice - Tina Tuesday Freestyle",
+      "channel_name": "Megan Thee Stallion",
+      "best_rank": 1,
+      "best_rank_status": "\ud83e\udd47 #1 Champion",
+      "total_placements": 3,
+      "unique_countries_count": 3,
+      "daily_music_placements": 3,
+      "trending_placements": 0,
+      "share_card_url": "https://charts.youtube.com/image/analytics/charts?r=IuEBCAIShwEKN01lZ2FuIFRoZWUgU3RhbGxpb24gLSBUaGluIEljZSAtIFRpbmEgVHVlc2RheSBGcmVlc3R5bGUSNGh0dHBzOi8vaS55dGltZy5jb20vdmkvOW9mVU0tXzN1UTQvbWF4cmVzZGVmYXVsdC5qcGcaATEiE01lZ2FuIFRoZWUgU3RhbGxpb24aPQocRGFpbHkgVG9wIE11c2ljIFZpZGVvcyBDaGFydBINVW5pdGVkIFN0YXRlcxoMT2N0IDMwLCAyMDI2OAMiEgoHI0Y4NDQ0NBIHIzAwMDAwMDAB"
+    }
+  ]
+}
